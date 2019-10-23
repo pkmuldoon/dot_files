@@ -1,4 +1,4 @@
-(setq gc-cons-threshold 200000000)
+(setq gc-cons-threshold 2000000000)
 
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -16,27 +16,13 @@
 (require 'pallet)
 (pallet-mode t)
 
-(setq-default cursor-type 'box) 
-(tool-bar-mode -1)
 (require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl
-    (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
+(tool-bar-mode -1)
+(setq-default cursor-type 'box) 
 (setq inhibit-splash-screen t
       initial-scratch-message nil
       initial-major-mode 'ruby-mode)
@@ -65,11 +51,9 @@ There are two things you can do about this warning:
 	    'yard-mode ;; fontification in ruby comments
 	    'goto-gem ;; Open dired in a gem directory
 	    'ruby-tools
-	    'ruby-block
 	    'ruby-additional
 	    'ruby-hash-syntax
 	    'ruby-refactor
-	    'dired-details
 	    'yasnippet
 	    'yari
 	    'ibuffer-vc
@@ -83,10 +67,14 @@ There are two things you can do about this warning:
 	    'inf-ruby
 	    'smartscan ;; Quickly jumps between other symbols found at point in Emacs
 	    'discover-my-major
-	    'goto-chg
 	    'fullframe
 	    'whole-line-or-region
 	                ))
+
+(dolist (package my-required-packages)
+   (when (not (package-installed-p package))
+     (package-refresh-contents)
+     (package-install package)))
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
@@ -291,3 +279,5 @@ position between `back-to-indentation' and `beginning-of-line'."
 
 (global-set-key [home]     'my-smart-beginning-of-line)
 (global-set-key (kbd "<end>") 'end-of-line)
+
+ 
