@@ -1,0 +1,37 @@
+{
+    "workbench.fontAliasing": "antialiased",
+    "workbench.enableExperiments": true,
+    "terminal.integrated.fontSize": 18,
+    "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
+    "ruby.rubocop.executePath": "/Users/phillipmuldoon/.gem/ruby/2.6.3/bin/rubocop",
+    //"ruby.format": "rufo",
+    //"ruby.lint": {
+    //    "ruby": true
+    //  },
+    "ruby.intellisense": "rubyLocate",
+    "ruby.interpreter.commandPath": "/Users/phillipmuldoon/.rubies/ruby-2.6.3/bin/ruby",
+    "ruby.useLanguageServer": true,
+    "ctags": {
+      "executePath": "/Users/phillipmuldoon/.gem/ruby/2.6.3/bin/ripper-tags",
+      "options": "--tag-file=.tags --recursive --force --exclude=/assets/ --exclude=.bundle --exclude=.git/ --exclude=coverage/ --exclude=.arcanist-extensions/ --exclude=log/ --exclude=tmp/ --exclude=bin/",
+      "fileName": ".tags"
+    },
+    "spellright.language": [
+      "en-gb"
+    ],
+    "spellright.documentTypes": [
+      "markdown",
+      "latex",
+      "plaintext",
+      "ruby",
+      "source-ag-output"
+    ],
+    "ruby.codeCompletion": "rcodetools",
+    "solargraph.commandPath": "/Users/phillipmuldoon/.gem/ruby/2.6.3/bin/solargraph",
+    "spellright.parserByClass": {
+      "source-ag-output": {
+        "parser": "plain"
+      }
+    }
+}
+

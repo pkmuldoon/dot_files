@@ -1,0 +1,110 @@
+{
+"version": "0.2.0",
+"configurations": [
+  {
+    "name": "Start Rails server",
+    "type": "Ruby",
+    "request": "launch",
+    "cwd": "${workspaceRoot}",
+    "program": "${workspaceRoot}/bin/rails",
+    "args": [
+      "server",
+      "-p",
+      "3000"
+    ]
+  },
+  {
+    "name": "Debug Rails server",
+    "type": "Ruby",
+    "request": "launch",
+    "cwd": "${workspaceRoot}",
+    "pathToRDebugIDE": "${env:GEM_HOME}/bin/debug-ide",
+    "program": "${workspaceRoot}/bin/rails",
+    "showDebuggerOutput": true,
+    "args": [
+      "server",
+      "-p",
+      "3000"
+    ],
+    "env": {
+        "GEM_HOME": "${env:GEM_HOME}",
+        "GEM_PATH": "${env:GEM_PATH}",
+        "RUBY_VERSION": "${env:RUBY_VERSION}",
+        "RAILS_ENV": "development",
+    },
+  },
+
+  {
+    "name": "Run RSpec - all",
+    "type": "Ruby",
+    "request": "launch",
+    "cwd": "${workspaceRoot}",
+    "program": "${workspaceRoot}/bin/rspec",
+    "args": [
+      "--pattern",
+      "${workspaceRoot}/spec/**/*_spec.rb"
+    ]
+  },
+  {
+    "name": "Run RSpec - one file ",
+    "type": "Ruby",
+    "request": "launch",
+    "cwd": "${workspaceRoot}",
+    "program": "${workspaceRoot}/bin/rspec",
+    "args": [
+      "${file}"
+      ]
+  },
+  {
+    "name": "Run RSpec - one file on line",
+    "type": "Ruby",
+    "request": "launch",
+    "cwd": "${workspaceRoot}",
+    "program": "${workspaceRoot}/bin/rspec",
+    "args": [
+      "${file}:${lineNumber}"
+    ]
+  },
+
+  {
+    "name": "Debug RSpec - open spec file",
+    "type": "Ruby",
+    "request": "launch",
+    "cwd": "${workspaceRoot}",
+    "pathToRDebugIDE": "${env:GEM_HOME}/bin/debug-ide",
+    "debuggerPort": "1234",
+
+    "program": "bin/rspec",
+    "showDebuggerOutput": true,
+    "args": [
+      	"--require", "spec_helper",
+      	"--require", "rails_helper",
+        "--format", "documentation",
+        "${file}"
+    ],
+    "env": {
+      "DISABLE_SPRING": 1,
+    }
+  },
+   {
+     "name": "Debug RSpec - open spec file at line",
+     "type": "Ruby",
+     "request": "launch",
+     "cwd": "${workspaceRoot}",
+     "pathToRDebugIDE": "${env:GEM_HOME}/bin/debug-ide",
+     "debuggerPort": "1234",
+
+     "program": "bin/rspec",
+     "showDebuggerOutput": true,
+     "args": [
+       "--require", "spec_helper",
+       "--require", "rails_helper",
+       "--format", "documentation",
+       "${file}:${lineNumber}"
+     ],
+     "env": {
+       "DISABLE_SPRING": 1,
+     }
+    }
+  ]
+}
