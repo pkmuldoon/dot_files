@@ -200,8 +200,8 @@
 ;; Sentences do not need double spaces to end. Period.
 (set-default 'sentence-end-double-space nil)
 
-(require 'visual-regexp)
-(require 'visual-regexp-steroids)
+(use-package visual-regexp)
+(use-package visual-regexp-steroids)
 (define-key global-map (kbd "C-c r") 'vr/replace)
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
  ;;if you use multiple-cursors, this is for you:
@@ -212,11 +212,12 @@
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
  ;;if you use multiple-cursors, this is for you:
 (define-key global-map (kbd "C-c m") 'vr/mc-mark)
-(require 'ido-vertical-mode)
+(use-package ido-vertical-mode)
 (ido-mode 1)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
 
+(define-key global-map (kbd "C-x f") 'helm-projectile)
 (defvar yafolding-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "<C-S-return>") #'yafolding-hide-parent-element)
@@ -251,16 +252,16 @@
 
 (setq-default cursor-type '(block . 1))
 (set-cursor-color "#ffffff") 
-(require 'projectile-codesearch)
+(use-package projectile-codesearch)
 
-(require 'filecache)
+(use-package filecache)
 (defun rails-add-proj-to-file-cache (dir)
   "Adds all the ruby and rhtml files recursively in the current directory to the file-cache"
   (interactive "DAdd directory: ")
     (file-cache-clear-cache)
     (file-cache-add-directory-recursively dir (regexp-opt (list ".rb" ".rhtml" ".xml" ".js" ".yml")))
     (file-cache-delete-file-regexp "\\.svn"))
-(require 'company-tabnine)
+(use-package company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
 (company-tng-configure-default)
   (setq company-frontends
@@ -281,3 +282,17 @@ position between `back-to-indentation' and `beginning-of-line'."
 (global-set-key (kbd "<end>") 'end-of-line)
 
  
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (eterm-256color whole-line-or-region yasnippet yari yard-mode yaml-mode yafolding wrap-region which-key web-mode visual-regexp-steroids use-package sourcemap solarized-theme smooth-scrolling smartscan slim-mode simpleclip scss-mode sass-mode rvm ruby-tools ruby-refactor ruby-hash-syntax ruby-extra-highlight ruby-additional rspec-mode robe rinari restclient projectile-rails projectile-codesearch pallet neotree magit ledger-mode jsx-mode jade-mode ido-vertical-mode ibuffer-vc helm-swoop helm-projectile helm-descbinds helm-ag goto-gem goto-chg git-timemachine fullframe flymake-ruby flycheck fiplr feature-mode exec-path-from-shell discover-my-major discover counsel company-tabnine company-inf-ruby coffee-mode chruby change-inner bundler buffer-move auto-complete auto-compile anzu alchemist ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
