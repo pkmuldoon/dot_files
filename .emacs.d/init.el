@@ -21,11 +21,20 @@
                          ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
+(use-package server
+  :ensure nil
+  :hook (after-init . server-mode))
+
+
+(setq inhibit-startup-screen t)
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
+(setq initial-scratch-message nil)
 (tool-bar-mode -1)
 (setq-default cursor-type 'box) 
-(setq inhibit-splash-screen t
-      initial-scratch-message nil
-      initial-major-mode 'ruby-mode)
+(setq inhibit-splash-screen t)
+(setq ring-bell-function 'ignore)
+(setq initial-major-mode 'enh-ruby-mode)
 
 (setq my-required-packages
       (list 'magit
@@ -81,6 +90,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-mode))
 
+(add-hook 'after-init-hook 'global-company-mode)
 (ivy-mode t)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
@@ -141,7 +151,6 @@
                                               (abbreviate-file-name (buffer-file-name)) "%f"))))
 
 (setq-default fill-column 80) ;; Sets a 80 character line width
-(setq inhibit-startup-screen t) ;; Don’t display the default splash screen
 (setq large-file-warning-threshold nil) ;; Don’t warn me about opening large files
 (setq x-select-enable-clipboard t) ;; Enable copy/past-ing from clipboard
 (setq system-uses-terminfo nil) ;; Fix weird color escape sequences
@@ -152,7 +161,7 @@
 (setq auto-revert-verbose nil)
 (setq-default line-spacing 1) ;; A nice line height
 (show-paren-mode 1) ;; Highlight matching parens
-(setq mac-option-key-is-meta nil)
+(setq mac-option-key-is-meta t)
     (setq mac-command-key-is-meta t)
     (setq mac-command-modifier 'control)
     (setq mac-option-modifier 'none)
@@ -240,18 +249,31 @@
 (chruby "ruby-2.6.3")
 
 (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
-(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist
+             '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
 
 (projectile-rails-global-mode)
 (add-hook 'enh-ruby-mode-hook 'yard-mode)
 (add-hook 'enh-ruby-mode-hook 'ruby-extra-highlight-mode)
 
+(robe-mode 1)
 (require 'auto-complete-config)
 (ac-config-default)
 (setq ac-ignore-case nil)
 (add-to-list 'ac-modes 'enh-ruby-mode)
 (add-to-list 'ac-modes 'web-mode)
+
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
+(add-hook 'robe-mode-hook 'ac-robe-setup)
+(add-hook 'after-init-hook 'global-company-mode)
+(define-key global-map (kbd "C-c C-c") 'company-complete)
+'(company-scrollbar-bg ((t (:background "#323445"))))
+'(company-scrollbar-fg ((t (:background "#393939"))))
+'(company-tooltip ((t (:inherit default :background "#21222d"))))
+'(company-tooltip-common ((t (:inherit font-lock-constant-face))))
+'(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
 
 (smartscan-mode 1)
 (require 'flymake-ruby)
@@ -303,6 +325,37 @@ position between `back-to-indentation' and `beginning-of-line'."
 
 (global-set-key [home]     'my-smart-beginning-of-line)
 (global-set-key (kbd "<end>") 'end-of-line)
+(define-key ivy-minibuffer-map [escape] 'minibuffer-keyboard-quit)
+
+(setq dumb-jump-selector 'ivy)
+(define-key global-map (kbd "M-g j") 'dumb-jump-go)
+(define-key global-map (kbd "M-g o") 'dumb-jump-go-other-window)
+(define-key global-map (kbd "M-g b") 'dumb-jump-back)
+(define-key global-map (kbd "M-g i") 'dumb-jump-go-prompt)
+(define-key global-map (kbd "M-g s") 'counsel-rg)
+
+(use-package which-key
+  :init
+  (which-key-mode)
+  :config
+  (which-key-setup-side-window-right-bottom)
+  (setq which-key-sort-order 'which-key-key-order-alpha
+    which-key-side-window-max-width 0.33
+    which-key-idle-delay 0.05)
+  :diminish which-key-mode)
+
+(provide 'init-which-key)
+
+(use-package historian)
+(use-package ivy-historian)
+
+(use-package ivy
+  :init
+  (ivy-mode +1)
+  (historian-mode +1)
+
+  :config
+  (ivy-historian-mode +1))
 
 (set-frame-font "-*-Cascadia Code-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1" nil t)
 (custom-set-variables
@@ -315,7 +368,7 @@ position between `back-to-indentation' and `beginning-of-line'."
     ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "73abbe794b6467bbf6a9f04867da0befa604a072b38012039e8c1ba730e5f7a5" "a4f8d45297894ffdd98738551505a336a7b3096605b467da83fae00f53b13f01" "6bf841f77d5eb01455d82ae436e3e25277daaef4ee855a3572589dad1b3ac4b3" "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695" "4aafea32abe07a9658d20aadcae066e9c7a53f8e3dfbd18d8fa0b26c24f9082c" "4c028a90479b9ad4cbb26ae7dc306dded07718749fe7e4159621a8aebac40213" "fa2af0c40576f3bde32290d7f4e7aa865eb6bf7ebe31eb9e37c32aa6f4ae8d10" default)))
  '(package-selected-packages
    (quote
-    (enh-ruby-mode flyspell-correct-ivy color-theme-sanityinc-tomorrow leuven-theme async bind-key cask company dash f git-commit helm helm-core inf-ruby ivy package-build projectile swiper transient with-editor counsel-codesearch abc-mode all-the-icons-ivy eterm-256color whole-line-or-region yasnippet yari yard-mode yaml-mode yafolding wrap-region which-key web-mode visual-regexp-steroids use-package sourcemap solarized-theme smooth-scrolling smartscan slim-mode simpleclip scss-mode sass-mode rvm ruby-tools ruby-refactor ruby-hash-syntax ruby-extra-highlight ruby-additional rspec-mode robe rinari restclient projectile-rails projectile-codesearch pallet neotree magit ledger-mode jsx-mode jade-mode ido-vertical-mode ibuffer-vc helm-swoop helm-projectile helm-descbinds helm-ag goto-gem goto-chg git-timemachine fullframe flymake-ruby flycheck fiplr feature-mode exec-path-from-shell discover-my-major discover counsel company-tabnine company-inf-ruby coffee-mode chruby change-inner bundler buffer-move auto-complete auto-compile anzu alchemist ag))))
+    (ivy-historian ivy-rich which-key-posframe dumb-jump enh-ruby-mode flyspell-correct-ivy color-theme-sanityinc-tomorrow leuven-theme async bind-key cask company dash f git-commit helm helm-core inf-ruby ivy package-build projectile swiper transient with-editor counsel-codesearch abc-mode all-the-icons-ivy eterm-256color whole-line-or-region yasnippet yari yard-mode yaml-mode yafolding wrap-region which-key web-mode visual-regexp-steroids use-package sourcemap solarized-theme smooth-scrolling smartscan slim-mode simpleclip scss-mode sass-mode rvm ruby-tools ruby-refactor ruby-hash-syntax ruby-extra-highlight ruby-additional rspec-mode robe rinari restclient projectile-rails projectile-codesearch pallet neotree magit ledger-mode jsx-mode jade-mode ido-vertical-mode ibuffer-vc helm-swoop helm-projectile helm-descbinds helm-ag goto-gem goto-chg git-timemachine fullframe flymake-ruby flycheck fiplr feature-mode exec-path-from-shell discover-my-major discover counsel company-tabnine company-inf-ruby coffee-mode chruby change-inner bundler buffer-move auto-complete auto-compile anzu alchemist ag))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
