@@ -1,4 +1,11 @@
-(setq gc-cons-threshold 2000000000)
+;; Set sane garbage collection during startup
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
+(add-hook 'after-init-hook
+          `(lambda ()
+             (setq gc-cons-threshold 800000
+                   gc-cons-percentage 0.1)
+             (garbage-collect)) t)
 
 ;; Profile startup.
 (add-hook 'emacs-startup-hook
@@ -9,6 +16,7 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
+
 (require 'tls)
 (push "/usr/local/etc/libressl/cert.pem" gnutls-trustfiles)
 
@@ -18,11 +26,19 @@
 (require 'pallet)
 (pallet-mode t)
 
-; pallet package manager init for archives.
+; package manager init for archives.
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("smelpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
+
+;; Basic package defaults
+(setq-default use-package-always-ensure t ; Auto-download package if not exists
+              use-package-always-defer t ; Always defer load package to speed up startup
+              use-package-verbose nil ; Don't report loading details
+              use-package-expand-minimally t  ; make the expanded code as minimal as possible
+              use-package-enable-imenu-support t) ; Let imenu finds use-package definitions
 
 (add-hook 'after-init-hook
           (lambda ()
@@ -43,15 +59,10 @@
 (setq initial-major-mode 'enh-ruby-mode)
 
 (setq my-required-packages
-      (list 'magit
-	    'solarized-theme
-	    'swiper ;; visual regex search
+      (list 
+	    'swiper 
 	    'exec-path-from-shell
-	    'visual-regexp
 	    'buffer-move ;; used for rotating buffersx
-	    'visual-regexp-steroids
-	    'ido-vertical-mode
-	    'yafolding
 	    's
 	    'sourcemap
 	    'bundler
@@ -73,7 +84,6 @@
 	    'yari
 	    'ibuffer-vc
 	    'rvm
-	    'rinari
 	    'web-mode
 	    'feature-mode
 	    'auto-compile
@@ -92,8 +102,8 @@
      (package-install package)))
 
 ;; mac stuff
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
+;;(when (memq window-system '(mac ns))
+;;  (exec-path-from-shell-initialize))
 (setq mac-option-key-is-meta t)
     (setq mac-command-key-is-meta t)
     (setq mac-command-modifier 'control)
@@ -292,6 +302,21 @@
 (require 'flymake-ruby)
 (add-hook 'enh-ruby-mode-hook 'flymake-ruby-load)
 (setq ruby-deep-indent-paren nil)
+;; Ensure that flycheck prepends "bundle exec" to RuboCop invocations
+(with-eval-after-load 'enh-ruby-mode
+  (defun spd-ruby-mode-defaults ()
+    (setq-local flycheck-command-wrapper-function (lambda (command)
+                                                    (if (string-suffix-p "/rubocop" (car command))
+                                                        (append '("bundle" "exec") command)
+                                                      command
+                                                      )
+                                                    ))
+    )
+
+  (setq spd-ruby-mode-hook 'spd-ruby-mode-defaults)
+
+  (add-hook 'enh-ruby-mode-hook (lambda ()
+                              (run-hooks 'spd-ruby-mode-hook))))
 
 ;; FlySpell
 (require 'flyspell)
@@ -304,6 +329,7 @@
 ;; Themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'sanityinc-tomorrow-night t)
+(set-frame-font "-*-Cascadia Code-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1" nil t)
 (set-face-attribute 'default nil :height 200)
 (setq-default cursor-type '(block . 1))
 (set-cursor-color "#ffffff") 
@@ -341,7 +367,7 @@ position between `back-to-indentation' and `beginning-of-line'."
 (define-key global-map (kbd "M-g f") 'fzf)
 (define-key global-map (kbd "C-x C-g") 'fzf)
 
-;; keybinings interactive helps
+;; keybindings interactive help
 (use-package which-key
   :init
   (which-key-mode)
@@ -354,7 +380,7 @@ position between `back-to-indentation' and `beginning-of-line'."
 
 (provide 'init-which-key)
 
-(set-frame-font "-*-Cascadia Code-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1" nil t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -365,7 +391,7 @@ position between `back-to-indentation' and `beginning-of-line'."
     ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "73abbe794b6467bbf6a9f04867da0befa604a072b38012039e8c1ba730e5f7a5" "a4f8d45297894ffdd98738551505a336a7b3096605b467da83fae00f53b13f01" "6bf841f77d5eb01455d82ae436e3e25277daaef4ee855a3572589dad1b3ac4b3" "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695" "4aafea32abe07a9658d20aadcae066e9c7a53f8e3dfbd18d8fa0b26c24f9082c" "4c028a90479b9ad4cbb26ae7dc306dded07718749fe7e4159621a8aebac40213" "fa2af0c40576f3bde32290d7f4e7aa865eb6bf7ebe31eb9e37c32aa6f4ae8d10" default)))
  '(package-selected-packages
    (quote
-    (lsp-ivy lsp-ui company-lsp counsel-projectile fzf ivy-historian ivy-rich which-key-posframe dumb-jump enh-ruby-mode flyspell-correct-ivy color-theme-sanityinc-tomorrow leuven-theme async bind-key cask company dash f git-commit helm helm-core inf-ruby ivy package-build projectile swiper transient with-editor counsel-codesearch abc-mode all-the-icons-ivy eterm-256color whole-line-or-region yasnippet yari yard-mode yaml-mode yafolding wrap-region which-key web-mode visual-regexp-steroids use-package sourcemap solarized-theme smooth-scrolling smartscan slim-mode simpleclip scss-mode sass-mode rvm ruby-tools ruby-refactor ruby-hash-syntax ruby-extra-highlight ruby-additional rspec-mode robe rinari restclient projectile-rails projectile-codesearch pallet neotree magit ledger-mode jsx-mode jade-mode ido-vertical-mode ibuffer-vc helm-swoop helm-projectile helm-descbinds helm-ag goto-gem goto-chg git-timemachine fullframe flymake-ruby flycheck fiplr feature-mode exec-path-from-shell discover-my-major discover counsel company-tabnine company-inf-ruby coffee-mode chruby change-inner bundler buffer-move auto-complete auto-compile anzu alchemist ag))))
+    (yasnippet-snippets lsp-ivy lsp-ui company-lsp counsel-projectile fzf ivy-historian ivy-rich which-key-posframe dumb-jump enh-ruby-mode flyspell-correct-ivy color-theme-sanityinc-tomorrow leuven-theme async bind-key cask company dash f git-commit helm helm-core inf-ruby ivy package-build projectile swiper transient with-editor counsel-codesearch abc-mode all-the-icons-ivy eterm-256color whole-line-or-region yasnippet yari yard-mode yaml-mode yafolding wrap-region which-key web-mode visual-regexp-steroids use-package sourcemap solarized-theme smooth-scrolling smartscan slim-mode simpleclip scss-mode sass-mode rvm ruby-tools ruby-refactor ruby-hash-syntax ruby-extra-highlight ruby-additional rspec-mode robe rinari restclient projectile-rails projectile-codesearch pallet neotree magit ledger-mode jsx-mode jade-mode ido-vertical-mode ibuffer-vc helm-swoop helm-projectile helm-descbinds helm-ag goto-gem goto-chg git-timemachine fullframe flymake-ruby flycheck fiplr feature-mode exec-path-from-shell discover-my-major discover counsel company-tabnine company-inf-ruby coffee-mode chruby change-inner bundler buffer-move auto-complete auto-compile anzu alchemist ag))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
