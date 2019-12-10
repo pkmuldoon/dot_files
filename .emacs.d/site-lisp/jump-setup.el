@@ -1,6 +1,6 @@
 (use-package dumb-jump
   :ensure t
-  :after counsel
+  :after (ivy)
   :init
   (dumb-jump-mode +1)
   :custom
