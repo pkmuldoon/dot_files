@@ -8,17 +8,21 @@
   (color-theme-sanityinc-tomorrow-night))
 
 (use-package all-the-icons
-  :ensure t)
-
-(use-package spaceline
-  :ensure t)
-
-(use-package spaceline-all-the-icons
   :ensure t
-  :after spaceline
+  :commands (all-the-icons-icon-for-file all-the-icons-icon-for-buffer all-the-icons-icon-for-mode))
+
+(use-package mode-icons
+  :ensure t
+  :config
+  (mode-icons-mode))
+
+(use-package volatile-highlights
+  :ensure t
   :init
-  '(spaceline-all-the-icons-eyebrowse-display-name t)
-  '(spaceline-all-the-icons-flycheck-alternate t)
-  '(spaceline-all-the-icons-highlight-file-name t)
-  '(spaceline-all-the-icons-window-number-always-visible t)
-  (spaceline-all-the-icons-theme))
+  (volatile-highlights-mode t))
+
+(use-package beacon
+  :ensure t
+  :init
+  (beacon-mode +1))
+

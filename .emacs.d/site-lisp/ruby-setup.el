@@ -66,3 +66,8 @@
 (use-package scss-mode
   :ensure t
   :mode "\\.scss\\'")
+
+(use-package inf-ruby
+  :ensure t
+  :after enh-ruby-mode
+  :hook (enh-ruby-mode . inf-ruby-minor-mode))
