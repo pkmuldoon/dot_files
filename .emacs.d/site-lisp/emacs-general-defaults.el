@@ -79,7 +79,13 @@ position between `back-to-indentation' and `beginning-of-line'."
 ;; Frame titles
 (setq-default frame-title-format '((:eval (if (buffer-file-name)
                                               (abbreviate-file-name (buffer-file-name)) "%f"))))
+;; Delete selection mode
+(delete-selection-mode 1)
+
 ;; Packages I use everywhere
+
+(use-package diminish
+  :ensure t)
 
 ;; Keep cursor away from edges when scrolling up/down
 (use-package smooth-scrolling
@@ -105,3 +111,7 @@ position between `back-to-indentation' and `beginning-of-line'."
   :config
   (paradox-enable)
   (paradox-menu-mode))
+
+(use-package restart-emacs
+  :ensure t
+  :commands (restart-emacs))

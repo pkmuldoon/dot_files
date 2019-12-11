@@ -34,3 +34,12 @@
     (prettify-symbols-mode))
   (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
   :diminish yas-minor-mode)
+
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :ensure t
+  :custom
+  (undo-tree-visualizer-timestaps t)
+  (undo-tree-visualizer-diff t)
+  :init
+  (global-undo-tree-mode))

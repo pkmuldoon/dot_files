@@ -29,3 +29,37 @@
   :init
   (beacon-mode +1))
 
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (setq spaceline-buffer-encoding-abbrev-p nil)
+  ;;(setq spaceline-line-column-p nil)
+  ;;(setq spaceline-line-p nil)
+  (setq powerline-default-seperator 'curve)
+  :init
+  (spaceline-spacemacs-theme))
+
+(use-package centaur-tabs
+  :ensure t
+  :demand
+
+  :custom
+  (centaur-tabs-style "box")
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-set-bar 'left)
+  (centaur-tabs-modified-marker "*")
+  (centaur-tabs-set-modified-marker t)
+
+  :config
+  (centaur-tabs-mode t)
+  (centaur-tabs-headline-match)
+  
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
+
+(use-package golden-ratio
+  :ensure t
+  :diminish (golden-ratio-mode)
+  :init (golden-ratio-mode 1))

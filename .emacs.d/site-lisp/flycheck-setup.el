@@ -27,3 +27,4 @@
   :after flyheck
   :init
     (flycheck-pos-tip-mode 1))
+(diminish flycheck-mode)
