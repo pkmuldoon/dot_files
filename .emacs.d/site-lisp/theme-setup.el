@@ -3,7 +3,8 @@
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
   :init
-  (set-frame-font "-*-Cascadia Code-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1" nil t)
+  (set-frame-font "Hack-22" nil t)
+;;  (set-frame-font "-*-Cascadia Code-normal-normal-normal-*-22-*-*-*-m-0-iso10646-1" nil t)
   (set-face-attribute 'default nil :height 200)
   (color-theme-sanityinc-tomorrow-night))
 
@@ -18,11 +19,13 @@
 
 (use-package volatile-highlights
   :ensure t
+  :diminish volatile-highlights-mode
   :init
   (volatile-highlights-mode t))
 
 (use-package beacon
   :ensure t
+  :diminish beacon-mode
   :init
   (beacon-mode +1))
 

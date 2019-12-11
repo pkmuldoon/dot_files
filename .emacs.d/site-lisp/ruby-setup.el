@@ -6,8 +6,10 @@
 ;;enh-ruby-mode
 (use-package projectile
   :ensure t)
+
 (use-package projectile-rails
-  :ensure t)
+  :ensure t
+  :diminish projectile-rails-mode)
 
 (use-package enh-ruby-mode
   :ensure t
@@ -30,21 +32,25 @@
 
 (use-package ruby-extra-highlight
   :ensure t
+  :diminish
   :after enh-ruby-mode
   :hook (enh-ruby-mode . ruby-extra-highlight-mode))
 
 (use-package yard-mode
   :ensure t
+  :diminish yard-mode
   :after enh-ruby-mode
   :hook (enh-ruby-mode . yard-mode))
 
 (use-package ruby-tools
   :ensure t
+  :diminish ruby-tools-mode
   :after enh-ruby-mode
   :hook (enh-ruby-mode . ruby-tools-mode))
 
 (use-package ruby-electric
   :ensure t
+  :diminish ruby-electric-mode
   :after enh-ruby-mode
   :hook (enh-ruby-mode . ruby-electric-mode))
 
@@ -71,3 +77,5 @@
   :ensure t
   :after enh-ruby-mode
   :hook (enh-ruby-mode . inf-ruby-minor-mode))
+  :config (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+

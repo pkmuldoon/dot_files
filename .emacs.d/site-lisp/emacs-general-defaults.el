@@ -99,4 +99,9 @@ position between `back-to-indentation' and `beginning-of-line'."
     which-key-idle-delay 0.05)
   :diminish which-key-mode)
 
-(provide 'init-which-key)
+(use-package paradox
+  :ensure t
+  :commands (paradox-list-packages)
+  :config
+  (paradox-enable)
+  (paradox-menu-mode))

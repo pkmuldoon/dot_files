@@ -1,6 +1,7 @@
 ;; Ivy
 (use-package ivy
   :ensure t
+  :diminish ivy-mode
   :init
   (ivy-mode 1)
   (historian-mode 1)
