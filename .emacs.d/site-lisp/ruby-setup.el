@@ -42,8 +42,7 @@
 (use-package yard-mode
   :ensure t
   :diminish yard-mode
-  :after enh-ruby-mode
-  :hook (enh-ruby-mode . yard-mode))
+  :after enh-ruby-mode)
 
 (use-package ruby-tools
   :ensure t

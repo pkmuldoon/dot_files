@@ -144,5 +144,19 @@ position between `back-to-indentation' and `beginning-of-line'."
   :ensure t
   :commands (restart-emacs))
 
+(eval-when-compile (require 'cl))
+(defun ignore-error-wrapper (fn)
+  "Function return new function that ignore errors.
+   The function wraps a function with `ignore-errors' macro."
+  (lexical-let ((fn fn))
+    (lambda ()
+      (interactive)
+      (ignore-errors
+        (funcall fn)))))
+
+(global-set-key [s-left] (ignore-error-wrapper 'windmove-left))
+(global-set-key [s-right] (ignore-error-wrapper 'windmove-right))
+(global-set-key [s-up] (ignore-error-wrapper 'windmove-up))
+(global-set-key [s-down] (ignore-error-wrapper 'windmove-down))
 (provide 'emacs-general-defaults)
 ;;; emacs-general-defaults.el ends here
