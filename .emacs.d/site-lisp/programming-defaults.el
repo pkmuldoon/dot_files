@@ -1,4 +1,8 @@
-;; prog mode setup
+;;; package --- Summary: Universal programming mode and packages setup"
+;;; Commentary:
+;;; Code:
+
+;; prog-mode setup
 (defun my-prog-mode-hook ()
   ;; Always show line numbers in prog-mode
   (global-display-line-numbers-mode)
@@ -23,23 +27,15 @@
   :config
   (use-package yasnippet-snippets
     :ensure t)
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets" "~/.emacs.d/ym-snippets"))
   (yas-global-mode t)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
-  (add-to-list #'yas-snippet-dirs "my-personal-snippets")
-  (yas-reload-all)
-  (setq yas-prompt-functions '(yas-ido-prompt))
-  (defun help/yas-after-exit-snippet-hook-fn ()
+  (yas-reload-all  (defun help/yas-after-exit-snippet-hook-fn ()
     (prettify-symbols-mode)
-    (prettify-symbols-mode))
+    (prettify-symbols-mode)))
   (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
   :diminish yas-minor-mode)
 
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :ensure t
-  :custom
-  (undo-tree-visualizer-timestaps t)
-  (undo-tree-visualizer-diff t)
-  :init
-  (global-undo-tree-mode))
+(provide 'programming-defaults)
+;;; programming-defaults.el ends here

@@ -1,3 +1,7 @@
+;;; package --- Summary: javascript setup"
+;;; Commentary:
+;;; Code:
+
 (use-package js2-mode
   :ensure t
   :mode "\\.js\\'"
@@ -9,7 +13,8 @@
                                      "process" "fetch"))
   (setq-default js2-strict-trailing-comma-warning t)
   (setq-default js2-strict-inconsistent-return-warning nil)
-  :bind (:map js2-mode-map
+  :bind (
+         :map js2-mode-map
               ("M-r"        . node-js-eval-region-or-buffer)
               ("M-R"        . refresh-chrome)
               ("M-s-<up>"   . js2r-move-line-up)
@@ -54,4 +59,5 @@
                  (delete-window)))))
 
 
-(provide 'setup-js2-mode)
+(provide 'js2-setup)
+;;; js2-setup.el ends here

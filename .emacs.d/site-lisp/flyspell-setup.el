@@ -1,3 +1,7 @@
+;;; package --- Summary: flyspell setup"
+;;; Commentary:
+;;; Code:
+
 (use-package flyspell
   :ensure t
   :diminish flyspell-mode
@@ -13,3 +17,5 @@
         ispell-personal-dictionary "~/.emacs.d/.aspell.en.pws"
         ispell-extra-args '("--sug-mode=ultra")))
 
+(provide 'flyspell-setup)
+;;; flyspell-setup.el ends here

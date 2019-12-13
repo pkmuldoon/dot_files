@@ -1,9 +1,12 @@
+;;; package --- Summary: Ruby mode and packages setup"
+;;; Commentary:
+;;; Code:
+
 ;; chruby
 (use-package chruby
   :ensure t
   :commands (chruby chruby-use chruby-use-corresponding))
 
-;;enh-ruby-mode
 (use-package projectile
   :ensure t)
 
@@ -78,4 +81,7 @@
   :after enh-ruby-mode
   :hook (enh-ruby-mode . inf-ruby-minor-mode))
   :config (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+
+(provide 'ruby-setup)
+;;; ruby-setup.el ends here
 

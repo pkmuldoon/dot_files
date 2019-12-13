@@ -1,4 +1,7 @@
-;; Ivy
+;;; package --- Summary: ivy setup"
+;;; Commentary:
+;;; Code:
+
 (use-package ivy
   :ensure t
   :diminish ivy-mode
@@ -12,12 +15,13 @@
   (ivy-display-style 'fancy)
 
   :bind
-    (("C-x b" . ivy-switch-buffer))
+  (("C-x b" . ivy-switch-buffer))
    
   :config
   (ivy-mode 1)
   (historian-mode 1)
-  (ivy-historian-mode +1)
+  (ivy-historian-mode 1)
+
   ;; Allow recursive minibuffers. Escape quits ivy
   (setq enable-recursive-minibuffers t)
   (define-key ivy-minibuffer-map [escape] 'minibuffer-keyboard-quit))
@@ -43,3 +47,6 @@
   :after (ivy)
   :bind (("C-s" . swiper)
          ("C-r" . swiper)))
+
+(provide 'ivy-setup)
+;;; ivy-setup.el ends here

@@ -1,0 +1,10 @@
+(   1/5044) M-x ^
+enable-theme
+vc-git-stash-snapshot
+magit-submodule-update
+counsel-compile-env
+url-setup-privacy-info
+flycheck-next-error (C-c ! n)
+dired-backup-diff
+dired-at-point
+counsel-switch-buffer-other-window

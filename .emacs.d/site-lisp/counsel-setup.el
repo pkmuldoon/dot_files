@@ -1,3 +1,8 @@
+;;; package --- Summary: Counsel mode setup"
+;;; Commentary:
+;;; Set up Company mode elements.
+;;; Code:
+
 (use-package counsel
   :ensure t
   :after (ivy)
@@ -17,3 +22,6 @@
          (:map minibuffer-local-map ("C-r" . counsel-minibuffer-history))
         )
   )
+
+(provide 'counse-setup)
+;;; counsel-setup.el ends here

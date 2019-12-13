@@ -1,3 +1,7 @@
+;;; package --- Summary: Mac OS setup"
+;;; Commentary:
+;;; Code:
+
 (use-package exec-path-from-shell
   :ensure t
   :if (memq window-system '(mac ns))
@@ -9,3 +13,6 @@
       mac-command-key-is-meta t
       mac-command-modifier 'meta
       mac-option-modifier 'none)
+
+(provide 'mac)
+;;; mac.el ends here

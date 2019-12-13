@@ -1,3 +1,9 @@
+;;; package --- Summary: dumb jump"
+;;; Commentary:
+;;; Set up theme elements.
+;;; Code:
+
+
 (use-package dumb-jump
   :ensure t
   :init
@@ -11,4 +17,8 @@
       ("M-g i" . dumb-jump-go-prompt)
       ;; Not related to dumb-jump but handy to have
       ("M-g s" . counsel-rg)
-      ("M-g f" . counsel-fzf)))
+      ("M-g f" . counsel-fzf)
+      ("M-g c" . counsel-codesearch)))
+
+(provide 'dump-jump-setup)
+;;; dumb-jump-setup.el ends here

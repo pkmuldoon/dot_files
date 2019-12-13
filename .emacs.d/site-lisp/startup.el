@@ -1,3 +1,8 @@
+;;; package --- Summary: Startup setup"
+;;; Commentary:
+;;; Set up startup elements.
+;;; Code:
+
 ;; Set sane garbage collection during startup
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
@@ -23,3 +28,6 @@
             (require 'server)
             (unless (server-running-p)
               (server-start))))
+
+(provide 'startup)
+;;; startup.el ends here
