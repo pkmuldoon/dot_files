@@ -23,5 +23,5 @@
         )
   )
 
-(provide 'counse-setup)
+(provide 'counsel-setup)
 ;;; counsel-setup.el ends here

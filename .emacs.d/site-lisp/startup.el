@@ -3,7 +3,10 @@
 ;;; Set up startup elements.
 ;;; Code:
 
-;; Set sane garbage collection during startup
+;; Set sane garbage collection defaults during startup. Strictly speaking, with
+;; `use-package` and lazy-loading, we don't really need to do garbage collection
+;; cat-herding at startup. Leave it here anyway as it does no harm.
+
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
 (add-hook 'after-init-hook
@@ -12,7 +15,9 @@
                    gc-cons-percentage 0.1)
              (garbage-collect)) t)
 
-;; Profile startup.
+;; Profile startup. See above for being sensitive to startup time and just
+;; leaving it here as it does no harm.
+
 (add-hook 'emacs-startup-hook
           (lambda ()
             (message "Emacs ready in %s with %d garbage collections."
@@ -22,7 +27,8 @@
                               gcs-done)))
 
 
-;; Start a server if one is not running already
+;; Start an Emacs server if one is not already running.
+
 (add-hook 'after-init-hook
           (lambda ()
             (require 'server)
