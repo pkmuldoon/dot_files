@@ -2,13 +2,17 @@
 ;;; Commentary:
 ;;; Code:
 
-;; prog-mode setup
+;; prog-mode setup. Compiled, more or less, from years of use and slimmed down
+;; here for Ruby/Rails.
+
 (defun my-prog-mode-hook ()
+
   ;; Always show line numbers in prog-mode
   (global-display-line-numbers-mode)
   (setq linum-format "%4d")
   (setq column-number-mode t)
   (setq line-number-mode t)
+
   ;; Language tabs
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 2)
@@ -21,6 +25,8 @@
   (setq web-mode-css-indent-offset 2))
 
 (add-hook 'prog-mode-hook #'my-prog-mode-hook)
+
+;; Snippets are useful occasionally.
 
 (use-package yasnippet
   :ensure t
@@ -36,6 +42,8 @@
     (prettify-symbols-mode)))
   (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
   :diminish yas-minor-mode)
+
+;; I like indent guides, especially in rspec test code which can be deeply indented.
 
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)

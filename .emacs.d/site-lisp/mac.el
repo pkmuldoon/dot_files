@@ -14,5 +14,7 @@
       mac-command-modifier 'meta
       mac-option-modifier 'none)
 
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 (provide 'mac)
 ;;; mac.el ends here

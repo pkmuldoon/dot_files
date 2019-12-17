@@ -14,6 +14,9 @@
   :ensure t
   :diminish projectile-rails-mode)
 
+;; I prefer enh-ruby-mode over ruby-mode as the enhanced version uses Ruby's own
+;; ripper system for syntax highlighting.
+
 (use-package enh-ruby-mode
   :ensure t
   :mode "\\.rb\\'"
