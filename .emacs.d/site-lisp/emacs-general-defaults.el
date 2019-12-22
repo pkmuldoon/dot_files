@@ -1,6 +1,6 @@
 ;;; package --- Summary: General emacs settings"
 ;;; Commentary:
-;; An ancient set of defaults.
+;;; An ancient set of defaults.
 ;;; Code:
 
 ;; ** General startup configuration acquired over twenty or so years of using
@@ -43,7 +43,7 @@
 ;; The battle is long lost. Allow Ctrl-CVZ.
 (cua-mode t)
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
-(setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
+(setq cua-keep-region-after-copy t) ;; Standard Linux/Windows behaviour
 
 ;; Enable copy/past-ing from clipboard
 (setq x-select-enable-clipboard t)
@@ -57,7 +57,7 @@
 ;; A nice line height
 (setq-default line-spacing 1)
 
-;; Highlight matching parens
+;; Highlight matching parenthesis
 (show-paren-mode 1)
 
 ;; SRGB support for OSX
@@ -86,7 +86,7 @@
 (set-selection-coding-system 'utf-8) 
 (prefer-coding-system 'utf-8) 
 
-;; [Sentences do not need double spaces to end.
+;; Sentences do not need double spaces to end.
 (set-default 'sentence-end-double-space nil)
 
 ;; No backups
@@ -94,12 +94,11 @@
 
 ;; Define behaviour of [home] and [end] keys.
 ;;
-;; [home] = beginning of line or indent, and toggle between each.
+;; [home] = beginning of line or the indent, and toggle between each.
 ;; [end] = end of line.
 
 (defun my-smart-beginning-of-line ()
-  "Move point to beginning-of-line. If repeat command it cycle
-position between `back-to-indentation' and `beginning-of-line'."
+  "Move point to beginning-of-line. If repeated, cycle position between `back-to-indentation' and `beginning-of-line'."
   (interactive "^")
   (if (and (eq last-command 'my-smart-beginning-of-line)
            (= (line-beginning-position) (point)))
@@ -169,6 +168,7 @@ position between `back-to-indentation' and `beginning-of-line'."
   :ensure t
   :commands (restart-emacs))
 
+;; Enable and setup windmove. Don't want to be nagged on error messages.
 (eval-when-compile (require 'cl))
 (defun ignore-error-wrapper (fn)
   "Function return new function that ignore errors.

@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
+;; Pretty standard flycheck configuration. Use bundle install rubocop over the rubocop that
+;; might happen to be in $PATH.
+
 (use-package flycheck
   :ensure t
   :hook (prog-mode . flycheck-mode)

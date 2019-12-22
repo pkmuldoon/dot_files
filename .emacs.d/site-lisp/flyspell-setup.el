@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+;; Pretty standard flyspell setup. Use aspell, with GB dictionary, and store
+;; personal dictionary in ~/.emacs.d
 (use-package flyspell
   :ensure t
   :diminish flyspell-mode

@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+;; If emacs is started from a desktop, find out the shell environment values by
+;; opening and interrogating a shell.
 (use-package exec-path-from-shell
   :ensure t
   :if (memq window-system '(mac ns))

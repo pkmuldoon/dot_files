@@ -3,7 +3,7 @@
 ;;; Set up Company mode elements.
 ;;; Code:
 
-;; The problem with rails is there is so much baked in magic, that
+;; The problem with rails is there is so much baked-in magic that
 ;; auto-completion cannot find a lot of the things that are useful for
 ;; completion candidates. As a first strategy, use a language server to find the
 ;; symbol to complete on. However, this won't work for a lot of things in models
@@ -22,6 +22,7 @@
   :bind (:map company-active-map
          ("C-<tab>" . company-try-hard)))
 
+;; Pretty standard company completion framework setup. Should be no real surprises here.
 (use-package company
   :ensure t
   :demand
@@ -30,7 +31,7 @@
   (company-idle-delay 0.3)
   (company-show-numbers t)
   (company-tooltip-limit 15)
-  (company-minimum-prefix-length 3)
+  (company-minimum-prefix-length 2)
   (company-tooltip-align-annotations t)
   ;; invert the navigation direction if the the completion popup-isearch-match
   ;; is displayed on top (happens near the bottom of windows)
@@ -51,6 +52,9 @@
    :if window-system
    :init (company-quickhelp-mode 1))
 
+;; In Ruby's case this will be Solargraph which works well. In Ruby on Rails,
+;; this will also be Solargraph which is not so good (it misses all the rails
+;; generated magic method)
 (use-package company-lsp
   :ensure t
   :after company

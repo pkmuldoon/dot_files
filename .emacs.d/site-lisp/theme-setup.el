@@ -1,9 +1,9 @@
-;;; package --- Summary: themes"
+;;; package --- Summary: themes
 ;;; Commentary:
 ;;; Set up theme elements.
 ;;; Code:
 
-;; Don't nag about "in theme" values being evaluated.
+;; Don't nag about "in-theme" values being evaluated.
 (setq custom-safe-themes t)
 
 ;; No particular reason for this theme other than I find it aesthetically

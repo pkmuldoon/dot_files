@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
+;; Ivy minibuffer (and other bits) setup. Prefer this over IDO and use
+;; historian to remember files I have previously opened.
+
 (use-package ivy
   :ensure t
   :diminish ivy-mode
@@ -26,6 +29,7 @@
   (setq enable-recursive-minibuffers t)
   (define-key ivy-minibuffer-map [escape] 'minibuffer-keyboard-quit))
 
+;; Provide extra context information in Ivy's display.
 (use-package ivy-rich
   :ensure t
   :after (ivy)
@@ -34,7 +38,8 @@
         ivy-virtual-abbreviate 'full)
   :config (ivy-rich-mode 1))
 
-;; Historian
+;; Historian and Ivy historian to remember previous interactions in the
+;; minibuffer
 (use-package historian
   :ensure t
   :after (ivy))

@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+;; Language server mode for company. This invokes a language server for company
+;; based completions. For Ruby and Rails, this happens to be Solargraph
 (use-package lsp-mode
   :ensure t
   :demand
