@@ -1,22 +1,25 @@
 {
     // RUBY SETTINGS
     // I hard coded some paths here that you will need to adjust yourself
-      "gemRoot": "/Users/phillipmuldoon/.gem/ruby/2.6.3/bin/",
-      "rubyRoot": "/Users/phillipmuldoon/.rubies/ruby-2.6.3/bin",
-      "rubocop.executePath": "/Users/phillipmuldoon/.gem/ruby/2.6.3/bin/rubocop",
+      "gemRoot": "/Users/phillipmuldoon/.gem/ruby/2.6.5/bin/",
+      "rubyRoot": "/Users/phillipmuldoon/.rubies/ruby-2.6.5/bin",
+      "rubocop.executePath": "/Users/phillipmuldoon/.gem/ruby/2.6.5/bin/rubocop",
       "editor.tabSize": 2,
-      "ruby.codeCompletion": "rcodetools",
+      "ruby.codeCompletion":  true,
+      "ruby.useLanguageServer": true,
       "ruby.format": "rubocop",
       "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
       "editor.formatOnSave": false,
       "ruby.intellisense": "rubyLocate",
-      "ruby.useLanguageServer": true,
-      "ruby.linter.executablePath": "/Users/phillipmuldoon/.rubies/ruby-2.6.3/bin/ruby",
-      "ruby.interpreter.commandPath": "/Users/phillipmuldoon/.rubies/ruby-2.6.3/bin/ruby",
+      "ruby.linter.executablePath": "/Users/phillipmuldoon/.rubies/ruby-2.6.5/bin/ruby",
+      "ruby.interpreter.commandPath": "/Users/phillipmuldoon/.rubies/ruby-2.6.5/bin/ruby",
       "solargraph.formatting": true,
       "solargraph.definitions": true,
       "solargraph.references": true,
       "solargraph.hover": true,
+      "solargraph.completion": true,
+      "solargraph.diagnostics": true,
+      "editor.wordBasedSuggestions": false,
 
       // Basic settings: turn linter(s) on
       "ruby.lint": {
