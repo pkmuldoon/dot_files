@@ -1,6 +1,6 @@
 # Ruby/Rails Emacs configuration
 
-This is my Emacs' configuration for Ruby and Rails, specifically for my workplace at FreeAgent. There shouldn't be any particular things here that you cannot use outside of my workplace development environment. Note, I'm not claiming this is a canonical configuration; it suits me, and contains personal choices that best work with my workflow. Your workflow will be different and so will your config. 
+This is my Emacs configuration for Ruby and Rails, specifically for my workplace at FreeAgent. There shouldn't be any particular things here that you cannot use outside of my workplace development environment. Note, I'm not claiming this is a canonical configuration; it suits me, and contains personal choices that best work with my workflow. Your workflow will be different and so will your config. 
 
 ## Getting Started
 
