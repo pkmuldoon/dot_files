@@ -184,6 +184,12 @@
 (global-set-key [s-up] (ignore-error-wrapper 'windmove-up))
 (global-set-key [s-down] (ignore-error-wrapper 'windmove-down))
 
+(use-package undo-fu
+  :init
+  (global-unset-key (kbd "C-z"))
+  :bind (("C-z" . undo-fu-only-undo)
+         ("C-S-z" . undo-fu-only-redo)))
+
 ;; config changes made through the customize UI will be stored here
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
