@@ -1,9 +1,9 @@
 {
     // RUBY SETTINGS
     // I hard coded some paths here that you will need to adjust yourself
-      "gemRoot": "/Users/phillipmuldoon/.gem/ruby/2.6.5/bin/",
-      "rubyRoot": "/Users/phillipmuldoon/.rubies/ruby-2.6.5/bin",
-      "rubocop.executePath": "/Users/phillipmuldoon/.gem/ruby/2.6.5/bin/rubocop",
+      "gemRoot": "${env:GEM_HOME}/bin/",
+      "rubyRoot": "${env:RUBY_ROOT}/bin",
+      "rubocop.executePath": "${env:GEM_HOME}/bin/rubocop",
       "editor.tabSize": 2,
       "ruby.codeCompletion":  true,
       "ruby.useLanguageServer": true,
@@ -11,8 +11,8 @@
       "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
       "editor.formatOnSave": false,
       "ruby.intellisense": "rubyLocate",
-      "ruby.linter.executablePath": "/Users/phillipmuldoon/.rubies/ruby-2.6.5/bin/ruby",
-      "ruby.interpreter.commandPath": "/Users/phillipmuldoon/.rubies/ruby-2.6.5/bin/ruby",
+      "ruby.linter.executablePath": "${env:RUBY_ROOT}/bin/ruby",
+      "ruby.interpreter.commandPath": "${env:RUBY_ROOT}/bin/ruby",
       "solargraph.formatting": true,
       "solargraph.definitions": true,
       "solargraph.references": true,
@@ -175,7 +175,7 @@
     "editor.formatOnSaveTimeout": 2000,
 
 
-    "solargraph.commandPath": "/Users/phillipmuldoon/.gem/ruby/2.6.3/bin/solargraph",
+    "solargraph.commandPath": "${env:GEM_HOME}/bin/solargraph",
     "cSpell.words": [
       "BCSG",
       "FAPD",
