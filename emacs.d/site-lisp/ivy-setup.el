@@ -5,9 +5,16 @@
 ;; Ivy minibuffer (and other bits) setup. Prefer this over IDO and use
 ;; historian to remember files I have previously opened.
 
+(use-package historian
+  :ensure t
+  :after (ivy))
+(use-package ivy-historian
+  :ensure t
+  :after (ivy))
+
 (use-package ivy
   :ensure t
-  :diminish ivy-mode
+  :delight
   :init
   (ivy-mode 1)
   (historian-mode 1)
@@ -37,15 +44,6 @@
   (setq ivy-rich-path-style 'abbrev
         ivy-virtual-abbreviate 'full)
   :config (ivy-rich-mode 1))
-
-;; Historian and Ivy historian to remember previous interactions in the
-;; minibuffer
-(use-package historian
-  :ensure t
-  :after (ivy))
-(use-package ivy-historian
-  :ensure t
-  :after (ivy))
 
 (use-package swiper
   :ensure t

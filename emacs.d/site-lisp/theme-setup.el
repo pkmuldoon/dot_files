@@ -43,7 +43,7 @@
 
 (use-package volatile-highlights
   :ensure t
-  :diminish volatile-highlights-mode
+  :delight
   :init
   (volatile-highlights-mode t))
 
@@ -53,7 +53,7 @@
 
 (use-package beacon
   :ensure t
-  :diminish beacon-mode
+  :delight
   :init
   (beacon-mode +1))
 
@@ -76,7 +76,7 @@
 
 (use-package golden-ratio
   :ensure t
-  :diminish (golden-ratio-mode)
+  :delight
   :init (golden-ratio-mode 1))
 
 (provide 'theme-setup)

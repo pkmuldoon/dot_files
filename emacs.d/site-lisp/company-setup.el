@@ -25,7 +25,7 @@
 ;; Pretty standard company completion framework setup. Should be no real surprises here.
 (use-package company
   :ensure t
-  :diminish company-mode
+  :delight
   :custom
   (company-idle-delay 0.3)
   (company-show-numbers t)

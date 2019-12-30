@@ -124,14 +124,6 @@
 
 ;; Packages I use everywhere
 
-;; Diminish minor modes from the modeline. We like minor modes, they're useful,
-;; but we don't need to know they are on. This package does away with the
-;; minor-modes registering themselves against the modeline but still allows them
-;; to function. So, a sane modeline, more or less.
-
-(use-package diminish
-  :ensure t)
-
 ;; Keep cursor away from edges when scrolling up/down
 
 (use-package smooth-scrolling
@@ -153,7 +145,7 @@
   (which-key-sort-order 'which-key-key-order-alpha)
   (which-key-side-window-max-width 0.33)
   (which-key-idle-delay 0.05)
-  :diminish which-key-mode)
+  :delight)
 
 ;; Easier package upgrading and general manager. I use it for automatically
 ;; upgrading Emacs' packages.

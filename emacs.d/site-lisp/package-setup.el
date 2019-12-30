@@ -28,5 +28,12 @@
               use-package-expand-minimally t  ; make the expanded code as minimal as possible
               use-package-enable-imenu-support t) ; Let imenu find use-package definitions
 
+;; Diminish minor modes from the modeline. We like minor modes, they're useful,
+;; but we don't need to know they are on. This package does away with the
+;; minor-modes registering themselves against the modeline but still allows them
+;; to function. So, a sane modeline, more or less.
+(use-package delight
+  :ensure t)
+
 (provide 'package-setup)
 ;;; package-setup.el ends here

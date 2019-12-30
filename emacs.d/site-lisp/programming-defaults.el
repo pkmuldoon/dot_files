@@ -41,7 +41,7 @@
     (prettify-symbols-mode)
     (prettify-symbols-mode)))
   (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
-  :diminish yas-minor-mode)
+  :delight)
 
 ;; I like indent guides, especially in rspec test code which can be deeply indented.
 

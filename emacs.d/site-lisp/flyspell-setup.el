@@ -6,7 +6,7 @@
 ;; personal dictionary in ~/.emacs.d
 (use-package flyspell
   :ensure t
-  :diminish flyspell-mode
+  :delight
   :hook ((prog-mode . flyspell-prog-mode)
          (text-mode . flyspell-mode))
   :custom

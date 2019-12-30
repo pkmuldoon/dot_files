@@ -12,7 +12,7 @@
 
 (use-package projectile-rails
   :ensure t
-  :diminish projectile-rails-mode)
+  :delight)
 
 ;; I prefer enh-ruby-mode over ruby-mode as the enhanced version uses Ruby's own
 ;; ripper system for syntax highlighting.
@@ -38,24 +38,24 @@
 
 (use-package ruby-extra-highlight
   :ensure t
-  :diminish
+  :delight
   :after enh-ruby-mode
   :hook (enh-ruby-mode . ruby-extra-highlight-mode))
 
 (use-package yard-mode
   :ensure t
-  :diminish yard-mode
+  :delight
   :after enh-ruby-mode)
 
 (use-package ruby-tools
   :ensure t
-  :diminish ruby-tools-mode
+  :delight
   :after enh-ruby-mode
   :hook (enh-ruby-mode . ruby-tools-mode))
 
 (use-package ruby-electric
   :ensure t
-  :diminish ruby-electric-mode
+  :delight
   :after enh-ruby-mode
   :hook (enh-ruby-mode . ruby-electric-mode))
 

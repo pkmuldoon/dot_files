@@ -8,7 +8,7 @@
 (use-package flycheck
   :ensure t
   :hook (prog-mode . flycheck-mode)
-  :diminish flycheck-mode
+  :delight
   :custom
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   (flycheck-idle-change-delay 0.8)
