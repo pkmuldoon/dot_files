@@ -6,7 +6,6 @@
 ;; based completions. For Ruby and Rails, this happens to be Solargraph
 (use-package lsp-mode
   :ensure t
-  :demand
   :custom
   ;; general
   (lsp-auto-guess-root t)
@@ -21,7 +20,6 @@
 
 (use-package lsp-ivy
   :ensure t
-  :demand
   :config
   (setq-default lsp-solargraph-log-level "debug")
   (setq-default lsp-keep-workspace-alive t)
@@ -34,7 +32,6 @@
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
-  :demand
   :commands lsp-ui-mode
   :hook (lsp-mode . lsp-ui-mode)
   :custom

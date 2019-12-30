@@ -119,6 +119,9 @@
 ;; Auto kill current buffer (don't prompt)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
+;; Stop nagging about symlinks
+(setq vc-follow-symlinks t)
+
 ;; Packages I use everywhere
 
 ;; Diminish minor modes from the modeline. We like minor modes, they're useful,

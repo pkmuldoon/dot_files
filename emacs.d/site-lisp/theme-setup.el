@@ -3,6 +3,9 @@
 ;;; Set up theme elements.
 ;;; Code:
 
+;; Set window size early.
+(setq default-frame-alist '((left . 0) (width . 141) (fullscreen . fullheight)))
+
 ;; Don't nag about "in-theme" values being evaluated.
 (setq custom-safe-themes t)
 
