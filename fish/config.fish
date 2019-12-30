@@ -14,8 +14,6 @@ alias favpn="osascript -e 'tell application \"Viscosity\" to connect \"Corporate
 alias emacs="/usr/local/opt/emacs-plus/Emacs.app/Contents/MacOS/Emacs"
 set -gx EDITOR emacs
 set -gx VISUAL $EDITOR
-alias hh=hstr                    # hh to be alias for hstr
-set HSTR_CONFIG "hicolor"        # get more colors
 
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'
 --color=dark
