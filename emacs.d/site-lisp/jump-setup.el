@@ -5,6 +5,10 @@
 ;; We keep dump-jump as it is still pretty good at finding things without
 ;; invoking a language model. I also hijack this to add various other
 ;; code-search related functions
+
+(use-package counsel-codesearch
+  :ensure t)
+
 (use-package dumb-jump
   :ensure t
   :after (ivy)

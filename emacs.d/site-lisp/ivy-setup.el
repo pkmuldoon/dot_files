@@ -7,10 +7,11 @@
 
 (use-package historian
   :ensure t
-  :after (ivy))
+  :after ivy)
+
 (use-package ivy-historian
   :ensure t
-  :after (ivy))
+  :after ivy)
 
 (use-package ivy
   :ensure t
