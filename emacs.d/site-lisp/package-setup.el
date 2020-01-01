@@ -33,7 +33,8 @@
 ;; minor-modes registering themselves against the modeline but still allows them
 ;; to function. So, a sane modeline, more or less.
 (use-package delight
-  :ensure t)
+  :ensure t
+  :demand t)
 
 (provide 'package-setup)
 ;;; package-setup.el ends here

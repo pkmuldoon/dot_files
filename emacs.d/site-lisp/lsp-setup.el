@@ -11,7 +11,9 @@
   (lsp-auto-guess-root t)
   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
   (lsp-response-timeout 10)
-  (lsp-prefer-flymake t) ;; t(flymake), nil(lsp-ui), or :none
+  (lsp-prefer-flymake -1) ;; t(flymake), nil(lsp-ui), or :none
+  (lsp-use-native-json t)
+  (lsp-enable-snippet t)
   :hook (prog-mode . lsp)
   :config
   (setq flymake-fringe-indicator-position 'right-fringe)
