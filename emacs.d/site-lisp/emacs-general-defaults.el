@@ -89,8 +89,9 @@
 ;; Sentences do not need double spaces to end.
 (set-default 'sentence-end-double-space nil)
 
-;; No backups
+;; No backups or lockfiles.
 (setq make-backup-files nil)
+(setq create-lockfiles nil)
 
 ;; Define behaviour of [home] and [end] keys.
 ;;

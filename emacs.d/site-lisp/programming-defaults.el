@@ -50,7 +50,12 @@
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-responsive 'stack))
-  
+
+(use-package editorconfig
+  :ensure t
+  :demand t
+  :config
+  (editorconfig-mode 1))
 
 (provide 'programming-defaults)
 ;;; programming-defaults.el ends here
