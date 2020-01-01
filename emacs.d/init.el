@@ -19,7 +19,7 @@
 (require 'flyspell-setup)
 (require 'counsel-setup)
 (require 'jump-setup)
-
+(require 'magit-setup)
 
 (provide 'init)
 ;;; init.el ends here
