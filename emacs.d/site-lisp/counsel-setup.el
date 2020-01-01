@@ -3,9 +3,6 @@
 ;;; Set up Company mode elements.
 ;;; Code:
 
-;; I've abused counsel's usefulness here and bolted on a lot of other "find"
-;; helpers. They are not related, except in function, and are included here
-;; for convenient grouping
 
 (use-package counsel
   :ensure t
