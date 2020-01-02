@@ -51,6 +51,21 @@
    :if window-system
    :init (company-quickhelp-mode 1))
 
+(use-package robe
+  :ensure t
+  :bind ("C-M-." . robe-jump)
+  :delight
+  :hook (enh-ruby-mode . robe-mode)
+  :init
+  (with-eval-after-load 'company
+    (push 'company-robe company-backends))
+  :commands (robe-mode company-robe)
+  :config
+  (setq inf-ruby-console-environment "development")
+  (robe-start 1)
+  (setq confirm-kill-processes nil)
+)
+
 ;; In Ruby's case this will be Solargraph which works well. In Ruby on Rails,
 ;; this will also be Solargraph which is not so good (it misses all the rails
 ;; generated magic method)
@@ -64,6 +79,7 @@
    (company-lsp-enable-snippet t)
   :config
   (push 'company-lsp company-backends))
+
 
 (provide 'company-setup)
 ;;; company-setup.el ends here

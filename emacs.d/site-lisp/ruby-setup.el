@@ -81,8 +81,12 @@
 (use-package inf-ruby
   :ensure t
   :after enh-ruby-mode
-  :hook (enh-ruby-mode . inf-ruby-minor-mode))
-  :config (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  :commands inf-ruby-minor-mode
+  :hook (
+         (enh-ruby-mode . inf-ruby-minor-mode)
+         (compilation-filter . inf-ruby-auto-enter)
+         (after-init . inf-ruby-auto-enter)
+        ))
 
 (provide 'ruby-setup)
 ;;; ruby-setup.el ends here
