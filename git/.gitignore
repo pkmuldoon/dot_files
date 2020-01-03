@@ -63,3 +63,5 @@ yarn.lock
 .vscode
 .gitignore
 bin/
+.solargraph.yml
+.yardoc/
