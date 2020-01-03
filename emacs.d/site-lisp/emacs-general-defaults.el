@@ -21,11 +21,11 @@
 (setq inhibit-splash-screen t)
 (tool-bar-mode -1)
 
-;; Cursor preference. I like blinking.
+;; Cursor preference. I like blinking so don't disable that.
 (setq-default cursor-type 'box)
 
 ;; Always highlight current line
-(setq hl-line-mode t)
+(global-hl-line-mode t)
 
 ;; No bells
 (setq ring-bell-function 'ignore)
@@ -58,7 +58,7 @@
 (setq-default line-spacing 1)
 
 ;; Highlight matching parenthesis
-(show-paren-mode 1)
+(show-paren-mode t)
 
 ;; SRGB support for OSX
 (setq ns-use-srgb-colorspace t) 
@@ -71,7 +71,7 @@
 (setq split-width-threshold nil)
 
 ;; Show active region
-(transient-mark-mode 1)
+(transient-mark-mode t)
 (make-variable-buffer-local 'transient-mark-mode)
 (put 'transient-mark-mode 'permanent-local t)
 (setq-default transient-mark-mode t)
@@ -89,8 +89,23 @@
 ;; Sentences do not need double spaces to end.
 (set-default 'sentence-end-double-space nil)
 
-;; No backups or lockfiles.
-(setq make-backup-files nil)
+;; Put backup files neatly away                                                 
+(let ((backup-dir "~/.emacs.d/backups/")
+      (auto-saves-dir "~/.emacs.d/auto-saves/"))
+  (dolist (dir (list backup-dir auto-saves-dir))
+    (when (not (file-directory-p dir))
+      (make-directory dir t)))
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+        auto-save-list-file-prefix (concat auto-saves-dir ".saves-"))
+  )
+
+(setq backup-by-copying t    ; Don't delink hardlinks                           
+      delete-old-versions t  ; Clean up the backups                             
+      version-control t      ; Use version numbers on backups,                  
+      kept-new-versions 5    ; keep some new versions                           
+      kept-old-versions 2)   ; and some old ones, too
+
 (setq create-lockfiles nil)
 
 ;; Define behaviour of [home] and [end] keys.
@@ -115,7 +130,7 @@
 (setq-default frame-title-format '((:eval (if (buffer-file-name)
                                               (abbreviate-file-name (buffer-file-name)) "%f"))))
 ;; Delete selection mode
-(delete-selection-mode 1)
+(delete-selection-mode t)
 
 ;; Auto kill current buffer (don't prompt)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
