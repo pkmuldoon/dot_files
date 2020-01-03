@@ -15,9 +15,6 @@
   (lsp-use-native-json t)
   (lsp-enable-snippet t)
   :hook (prog-mode . lsp)
-  :config
-  (setq flymake-fringe-indicator-position 'right-fringe)
-  (require 'lsp-clients)
   :commands lsp)
 
 (use-package lsp-ivy
@@ -25,8 +22,8 @@
   :config
   (setq-default lsp-solargraph-log-level "debug")
   (setq-default lsp-keep-workspace-alive t)
-  (add-hook 'after-init-hook 'global-company-mode))
-  ;;(define-key global-map (kbd "C-c C-c") 'company-complete))
+  :hook
+  (after-init . global-company-mode))
 
  
 ;; lsp-ui: This contains all the higher level UI modules of lsp-mode, like flycheck support and code lenses.
