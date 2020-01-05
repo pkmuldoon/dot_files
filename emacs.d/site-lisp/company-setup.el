@@ -52,6 +52,7 @@
    :init (company-quickhelp-mode 1))
 
 (use-package robe
+  :disabled
   :ensure t
   :bind ("C-M-." . robe-jump)
   :delight
@@ -76,6 +77,7 @@
    (company-lsp-async t)
    (company-lsp-cache-candidates 'auto)
    (company-lsp-enable-recompletion t)
+   (company-lsp-filter-candidates t)
    (company-lsp-enable-snippet t)
   :config
   (push 'company-lsp company-backends))

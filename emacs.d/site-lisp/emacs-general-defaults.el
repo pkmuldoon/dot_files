@@ -206,5 +206,13 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(use-package direnv
+  :ensure t
+  :custom
+  (direnv-always-show-summary t)
+  (direnv-use-faces-in-summary t)
+  :config
+  (direnv-mode))
+
 (provide 'emacs-general-defaults)
 ;;; emacs-general-defaults.el ends here
