@@ -1,11 +1,14 @@
 set -gx LC_ALL en_GB.UTF-8
 set -gx LANG en_GB.UTF-8
-set -gx TERM "xterm-256color"
+set -gx TERM xterm-256color
 set -gx GOROOT /usr/local/opt/go/libexec
 set -gx GOPATH $HOME/.go
 
 set -gx PATH /usr/local/opt/qt@5.5/bin:/usr/local/bin:$HOME/bin:$HOME/usr/local/bin:/Users/phillipmuldoon/.cask/bin:$GOPATH/bin:$GOROOT/bin $PATH
 set -gx NVM_DIR $HOME/.nvm
+
+source /usr/local/share/chruby/chruby.fish
+source /usr/local/share/chruby/auto.fish
 
 alias rsp='bundle exec rspec'
 alias rke='bundle exec rails'
