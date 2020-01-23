@@ -32,7 +32,8 @@
   :ensure t
   :config
   (use-package yasnippet-snippets
-    :ensure t)
+    :ensure t
+    :delight)
   (setq yas-snippet-dirs '("~/.emacs.d/snippets" "~/.emacs.d/ym-snippets"))
   (yas-global-mode t)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
@@ -49,13 +50,15 @@
   :hook (prog-mode . highlight-indent-guides-mode)
   :custom
   (highlight-indent-guides-method 'character)
-  (highlight-indent-guides-responsive 'stack))
-
+  (highlight-indent-guides-responsive 'stack)
+  :delight)
+  
 (use-package editorconfig
   :ensure t
   :demand t
   :config
-  (editorconfig-mode 1))
+  (editorconfig-mode 1)
+  :delight)
 
 (provide 'programming-defaults)
 ;;; programming-defaults.el ends here

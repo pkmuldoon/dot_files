@@ -160,11 +160,12 @@
   :custom
   (which-key-sort-order 'which-key-key-order-alpha)
   (which-key-side-window-max-width 0.33)
-  (which-key-idle-delay 0.05)
+  (which-key-idle-delay 0.20)
   :delight)
 
-;; Easier package upgrading and general manager. I use it for automatically
-;; upgrading Emacs' packages.
+(use-package which-key-posframe
+  :config
+  (which-key-posframe-mode))
 
 (use-package paradox
   :ensure t

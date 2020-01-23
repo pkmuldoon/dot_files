@@ -47,9 +47,9 @@
   (global-company-mode))
 
 (use-package company-quickhelp
-   :ensure t
-   :if window-system
-   :init (company-quickhelp-mode 1))
+  :ensure t
+  :if window-system
+  :init (company-quickhelp-mode 1))
 
 (use-package robe
   :disabled

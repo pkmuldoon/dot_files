@@ -37,6 +37,11 @@
   (lsp-ui-imenu-enable t)
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-use-childframe t)
+  (lsp-ui-doc-position 'bottom)
+  (lsp-ui-doc-alignment 'window)
+  (lsp-ui-doc-use-webkit t)
+  (lsp-ui-doc-max-width 80)
+
   (lsp-ui-flycheck-enable t)
   (lsp-ui-flycheck-list-position 'right)
   (lsp-ui-flycheck-live-reporting t)
