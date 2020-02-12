@@ -46,6 +46,20 @@
   (yas-global-mode 1)
   (global-company-mode))
 
+(use-package company-prescient
+  :ensure t
+  :delight
+  :after company
+  :config
+  (company-prescient-mode))
+
+(use-package company-statistics
+  :ensure t
+  :delight
+  :after company
+  :config
+  (company-statistics-mode))
+
 (use-package company-quickhelp
   :ensure t
   :if window-system
@@ -81,7 +95,6 @@
    (company-lsp-enable-snippet t)
   :config
   (push 'company-lsp company-backends))
-
 
 (provide 'company-setup)
 ;;; company-setup.el ends here

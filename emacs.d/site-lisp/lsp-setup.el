@@ -18,6 +18,7 @@
   :commands lsp)
 
 (use-package lsp-ivy
+  :after lsp-mode
   :ensure t
   :config
   (setq-default lsp-solargraph-log-level "debug")
@@ -29,6 +30,7 @@
 ;; lsp-ui: This contains all the higher level UI modules of lsp-mode, like flycheck support and code lenses.
 ;; https://github.com/emacs-lsp/lsp-ui
 (use-package lsp-ui
+  :after lsp-mode
   :ensure t
   :after lsp-mode
   :commands lsp-ui-mode

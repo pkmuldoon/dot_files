@@ -37,6 +37,27 @@
   (setq enable-recursive-minibuffers t)
   (define-key ivy-minibuffer-map [escape] 'minibuffer-keyboard-quit))
 
+(use-package ivy-prescient
+  :ensure t
+  :delight
+  :after ivy
+  :config
+  (ivy-prescient-mode))
+
+(use-package all-the-icons-ivy
+  :ensure t
+  :delight
+  :after (all-the-icons ivy)
+  :custom (all-the-icons-ivy-file-commands '(counsel-dired-jump
+                                            counsel-find-file
+                                            counsel-file-jump
+                                            counsel-find-library
+                                            counsel-git
+                                            counsel-projectile-find-dir
+                                            counsel-projectile-find-file
+                                            counsel-recentf))
+  :config (all-the-icons-ivy-setup))
+
 ;; Provide extra context information in Ivy's display.
 (use-package ivy-rich
   :ensure t

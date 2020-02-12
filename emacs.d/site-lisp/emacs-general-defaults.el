@@ -140,6 +140,12 @@
 
 ;; Packages I use everywhere
 
+(use-package prescient
+  :ensure t
+  :delight
+  :config
+  (prescient-persist-mode))
+
 ;; Keep cursor away from edges when scrolling up/down
 
 (use-package smooth-scrolling

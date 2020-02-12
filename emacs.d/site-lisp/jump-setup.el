@@ -21,6 +21,7 @@
   (dumb-jump-mode +1)
   :custom
   (dumb-jump-selector 'ivy)
+  (dumb-jump-prefer-searcher 'rg)
   :bind
   (
    ("M-g j" . dumb-jump-go)
