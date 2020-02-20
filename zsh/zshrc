@@ -1,5 +1,8 @@
 #zmodload zsh/zprof
 
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
 export TERM="xterm-256color"
 export PATH="/usr/local/opt/qt@5.5/bin:/usr/local/bin:$HOME/bin:$HOME/usr/local/bin:/Users/phillipmuldoon/.cask/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
@@ -25,6 +28,7 @@ alias rke='bundle exec rails'
 
 # bat > cat
 alias cat='bat'
+alias ls='ls -G'
 
 # FZF setup
 export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'                                                    
