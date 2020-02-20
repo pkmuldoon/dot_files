@@ -18,7 +18,7 @@
   ;; My current font choice: very clear and straightforward.
   ;; https://github.com/source-foundry/Hack
   ;;(set-frame-font "Hack-22" nil t)
-  (set-frame-font "JetBrains Mono-24" nil t)
+  (set-frame-font "Hack-22" nil t)
   (set-face-attribute 'default nil :height 200)
   (color-theme-sanityinc-tomorrow-night))
 

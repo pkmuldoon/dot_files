@@ -28,6 +28,17 @@
 
 
 ;; Start an Emacs server if one is not already running.
+;; Set window size early.
+
+(setq initial-frame-alist '((top . 0) (left . 0)
+                            (fullscreen . fullheight)
+                            (font . "Hack-22")
+                            ))
+
+(setq default-frame-alist '((top . 0) (left . 0)
+                            (fullscreen . fullheight)
+                            (font . "Hack-22")
+                            ))
 
 (add-hook 'after-init-hook
           (lambda ()
