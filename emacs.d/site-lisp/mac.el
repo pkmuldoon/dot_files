@@ -12,8 +12,8 @@
   (exec-path-from-shell-initialize))
 
 (setq mac-option-key-is-meta nil
-      mac-command-key-is-meta t
-      mac-command-modifier 'meta
+      mac-command-key-is-meta nil
+      mac-command-modifier 'control
       mac-option-modifier 'none)
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
