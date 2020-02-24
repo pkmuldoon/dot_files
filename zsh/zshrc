@@ -1,7 +1,19 @@
-#zmodload zsh/zprof
-
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
+zplug "zsh-users/zsh-autosuggestions"
+zplug "plugins/git", from:oh-my-zsh
+zplug "zdharma/fast-syntax-highlighting", defer:3
+zplug "rupa/z", as:plugin, use:z.sh
+zplug "ael-code/zsh-colored-man-pages"
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check; then
+   zplug install
+fi
+
+# Load everything
+zplug load
+
 
 export TERM="xterm-256color"
 export PATH="/usr/local/opt/qt@5.5/bin:/usr/local/bin:$HOME/bin:$HOME/usr/local/bin:/Users/phillipmuldoon/.cask/bin:$PATH"
