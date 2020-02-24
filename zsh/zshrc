@@ -5,6 +5,7 @@ zplug "plugins/git", from:oh-my-zsh
 zplug "zdharma/fast-syntax-highlighting", defer:3
 zplug "rupa/z", as:plugin, use:z.sh
 zplug "ael-code/zsh-colored-man-pages"
+zplug "zsh-users/zsh-completions"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check; then
