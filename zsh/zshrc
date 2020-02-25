@@ -44,7 +44,7 @@ alias cat='bat'
 alias ls='ls -G'
 
 # FZF setup
-export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'                                                    
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(emacs {})+abort'
 --color=dark
 --color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
