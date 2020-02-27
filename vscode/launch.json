@@ -1,3 +1,7 @@
+// These config works with the following gems:
+// ruby-debug-ide 0.8.0.beta21
+// debase 0.3.0.beta23
+
 {
 "version": "0.2.0",
 "configurations": [
@@ -33,39 +37,6 @@
         "RAILS_ENV": "development",
     },
   },
-
-  {
-    "name": "Run RSpec - all",
-    "type": "Ruby",
-    "request": "launch",
-    "cwd": "${workspaceRoot}",
-    "program": "${workspaceRoot}/bin/rspec",
-    "args": [
-      "--pattern",
-      "${workspaceRoot}/spec/**/*_spec.rb"
-    ]
-  },
-  {
-    "name": "Run RSpec - one file ",
-    "type": "Ruby",
-    "request": "launch",
-    "cwd": "${workspaceRoot}",
-    "program": "${workspaceRoot}/bin/rspec",
-    "args": [
-      "${file}"
-      ]
-  },
-  {
-    "name": "Run RSpec - one file on line",
-    "type": "Ruby",
-    "request": "launch",
-    "cwd": "${workspaceRoot}",
-    "program": "${workspaceRoot}/bin/rspec",
-    "args": [
-      "${file}:${lineNumber}"
-    ]
-  },
-
   {
     "name": "Debug RSpec - open spec file",
     "type": "Ruby",
@@ -73,8 +44,7 @@
     "cwd": "${workspaceRoot}",
     "pathToRDebugIDE": "${env:GEM_HOME}/bin/debug-ide",
     "debuggerPort": "1234",
-
-    "program": "bin/rspec",
+    "program": "${workspaceRoot}/bin/rspec",
     "showDebuggerOutput": true,
     "args": [
       	"--require", "spec_helper",
@@ -83,7 +53,8 @@
         "${file}"
     ],
     "env": {
-      "DISABLE_SPRING": 1,
+      "ZEITWERK_DISABLED": 1,
+      "DISABLE_SPRING": 1
     }
   },
    {
@@ -93,8 +64,7 @@
      "cwd": "${workspaceRoot}",
      "pathToRDebugIDE": "${env:GEM_HOME}/bin/debug-ide",
      "debuggerPort": "1234",
-
-     "program": "bin/rspec",
+     "program": "${workspaceRoot}/bin/rspec",
      "showDebuggerOutput": true,
      "args": [
        "--require", "spec_helper",
@@ -104,7 +74,40 @@
      ],
      "env": {
        "DISABLE_SPRING": 1,
+       "ZEITWERK_DISABLED": 1
      }
+    },
+    {
+      "name": "Run RSpec - all",
+      "type": "Ruby",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "pathToRDebugIDE": "${env:GEM_HOME}/bin/debug-ide",
+      "program": "${workspaceRoot}/bin/rspec",
+      "args": [
+        "--pattern",
+        "${workspaceRoot}/spec/**/*_spec.rb"
+      ]
+    },
+    {
+      "name": "Run RSpec - one file ",
+      "type": "Ruby",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "program": "${workspaceRoot}/bin/rspec",
+      "args": [
+        "${file}"
+      ]
+    },
+    {
+      "name": "Run RSpec - one file on line",
+      "type": "Ruby",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "program": "${workspaceRoot}/bin/rspec",
+      "args": [
+        "${file}:${lineNumber}"
+      ]
     }
   ]
 }
