@@ -7,8 +7,7 @@
 ;; `use-package` and lazy-loading, we don't really need to do garbage collection
 ;; cat-herding at startup. Leave it here anyway as it does no harm.
 
-(setq gc-cons-threshold 402653184
-      gc-cons-percentage 0.6)
+(setq gc-cons-threshold  most-positive-fixnum)
 (add-hook 'after-init-hook
           `(lambda ()
              (setq gc-cons-threshold 800000

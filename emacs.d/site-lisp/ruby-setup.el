@@ -34,7 +34,9 @@
   (projectile-rails-global-mode)
   (superword-mode 1)
   (setq projectile-completion-system 'ivy)
-  (chruby "ruby-2.6.5"))
+  (chruby "ruby-2.6.5")
+  (setq ruby-use-smie t)
+  )
 
 (use-package ruby-extra-highlight
   :ensure t

@@ -140,6 +140,11 @@
 
 ;; Packages I use everywhere
 
+(use-package gcmh
+  :ensure t
+  :init
+  (gcmh-mode 1))
+
 (use-package prescient
   :ensure t
   :delight
