@@ -1,191 +1,184 @@
 {
-    // RUBY SETTINGS
-    // I hard coded some paths here that you will need to adjust yourself
-      "gemRoot": "${env:GEM_HOME}/bin/",
-      "rubyRoot": "${env:RUBY_ROOT}/bin",
-      "rubocop.executePath": "${env:GEM_HOME}/bin/rubocop",
-      "editor.tabSize": 2,
-      "ruby.codeCompletion":  true,
-      "ruby.useLanguageServer": true,
-      "ruby.format": "rubocop",
-      "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
-      "editor.formatOnSave": false,
-      "ruby.intellisense": "rubyLocate",
-      "ruby.linter.executablePath": "${env:RUBY_ROOT}/bin/ruby",
-      "ruby.interpreter.commandPath": "${env:RUBY_ROOT}/bin/ruby",
-      "solargraph.formatting": true,
-      "solargraph.definitions": true,
-      "solargraph.references": true,
-      "solargraph.hover": true,
-      "solargraph.completion": true,
-      "solargraph.diagnostics": true,
-      "editor.wordBasedSuggestions": false,
+  // RUBY SETTINGS
+  "gemRoot": "${env:GEM_HOME}/bin/",
+  "rubyRoot": "${env:RUBY_ROOT}/bin",
+  "rubocop.executePath": "${env:GEM_HOME}/bin/rubocop",
+  "ruby.codeCompletion":  true,
+  "ruby.useLanguageServer": true,
+  "ruby.format": "rubocop",
+  "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
+  "ruby.intellisense": "rubyLocate",
+  "ruby.linter.executablePath": "${env:RUBY_ROOT}/bin/ruby",
+  "ruby.interpreter.commandPath": "${env:RUBY_ROOT}/bin/ruby",
+  // Basic settings: turn linter(s) on
+  "ruby.lint": {
+    "rubocop": {
+      "lint": true, // enable lint cops
+      "rails": true // requires rubocop-rails gem for RuboCop >= 0.72.0
+    }
+  },
 
-      // Basic settings: turn linter(s) on
-      "ruby.lint": {
-        "rubocop": {
-          "lint": true, // enable lint cops
-          "rails": true // requires rubocop-rails gem for RuboCop >= 0.72.0
-        }
-      },
+  // Time (ms) to wait after keypress before running enabled linters. Ensures
+  // linters are only run when typing has finished and not for every keypress
+  "ruby.lintDebounceTime": 500,
 
-      // Time (ms) to wait after keypress before running enabled linters. Ensures
-      // linters are only run when typing has finished and not for every keypress
-      "ruby.lintDebounceTime": 500,
+  // VISUAL
+  "editor.tabSize": 2,
+  "editor.wordBasedSuggestions": false,
+  "editor.cursorStyle": "block",
+  "editor.cursorWidth": 50,
+  "editor.cursorBlinking":  "phase",
+  "editor.renderWhitespace": "selection",
+  "editor.lineHeight": 0,
+  "editor.fontWeight": "normal",
+  "editor.fontFamily": "Hack",
+  "editor.fontSize": 22,
+  "editor.fontLigatures": true,
+  "editor.showFoldingControls": "always",
+  "editor.formatOnSave": false,
+  "editor.formatOnType": true,
+  "editor.formatOnPaste": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "window.zoomLevel": 1,
 
-    // VISUAL
-    "editor.cursorStyle": "block",
-    "editor.cursorWidth": 50,
-    "editor.cursorBlinking":  "phase",
-    "editor.renderWhitespace": "all",
-    "editor.lineHeight": 30,
-    "editor.fontWeight": "normal",
-    "editor.fontFamily": "Hack",
-    "editor.fontSize": 22,
-    "editor.fontLigatures": true,
-    "explorer.openEditors.visible": 0,
-    "window.zoomLevel": 1.0,
-    "workbench.sideBar.location": "left",
-    "workbench.fontAliasing": "antialiased",
-    "workbench.enableExperiments": true,
-    "debug.console.fontFamily": "Hack",
-    "debug.console.fontSize": 22,
-    "debug.inlineValues": true,
-    "debug.enableAllHovers": true,
-    "debug.focusWindowOnBreak": true,
-    "editor.showFoldingControls": "always",
+  "workbench.sideBar.location": "left",
+  "workbench.fontAliasing": "antialiased",
+  "workbench.enableExperiments": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.iconTheme": "vscode-great-icons",
 
-    // Terminal
-    "terminal.integrated.fontFamily": "Hack",
-    "terminal.integrated.fontSize": 22,
-    "terminal.integrated.cursorStyle": "block",
-    "terminal.integrated.cursorBlinking": true,
-    "terminal.integrated.drawBoldTextInBrightColors": true,
-    "terminal.integrated.enableBell": false,
-    "terminal.integrated.confirmOnExit": false,
-    "terminal.integrated.enableFileLinks": true,
-    "terminal.integrated.shell.linux": "/bin/zsh",
+  "explorer.openEditors.visible": 0,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
 
-    // BEHAVIOUR
-    //"debug.internalConsoleOptions": "neverOpen",
-    "editor.acceptSuggestionOnEnter": "on",
-    "explorer.confirmDragAndDrop": false,
-    "explorer.confirmDelete": false,
-    "files.autoSave": "afterDelay",
-    "gitlens.currentLine.enabled": false, // in modern version
-    "gitlens.codeLens.authors.enabled": false,
-    "gitlens.codeLens.recentChange.enabled": false,
+  "debug.console.fontFamily": "Hack",
+  "debug.console.fontSize": 22,
+  "debug.inlineValues": true,
+  "debug.enableAllHovers": true,
+  "debug.focusWindowOnBreak": true,
 
-    // FORMATTING
-    // Enables beautification of more that just HTML :)
-    "beautify.language": {
-      "js": {
-        "type": ["javascript", "json"],
-        "filename": [".jshintrc", ".jsbeautifyrc"]
-      },
-      "css": ["css", "scss"],
-      "html": {
-        "type": ["htm", "html"],
-        "filename": [".html.eex", ".html.leex", ".html.erb", ".html"]
-      }
+  "files.trimTrailingWhitespace": true,
+  "files.autoSave": "afterDelay",
+
+  // Terminal
+  "terminal.integrated.fontFamily": "Hack",
+  "terminal.integrated.fontSize": 22,
+  "terminal.integrated.cursorStyle": "block",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.drawBoldTextInBrightColors": true,
+  "terminal.integrated.enableBell": false,
+  "terminal.integrated.confirmOnExit": false,
+  "terminal.integrated.enableFileLinks": true,
+  "terminal.integrated.shell.linux": "/bin/zsh",
+
+  "search.showLineNumbers": true,
+
+  "solargraph.commandPath": "solargraph",
+  "solargraph.formatting": true,
+  "solargraph.definitions": true,
+  "solargraph.references": true,
+  "solargraph.hover": true,
+  "solargraph.completion": true,
+  "solargraph.diagnostics": true,
+
+
+  "gitlens.currentLine.enabled": false, // in modern version
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+
+  // FORMATTING
+  "beautify.language": {
+    "js": {
+      "type": ["javascript", "json"],
+      "filename": [".jshintrc", ".jsbeautifyrc"]
     },
+    "css": ["css", "scss"],
+    "html": {
+      "type": ["htm", "html"],
+      "filename": [".html.eex", ".html.leex", ".html.erb", ".html"]
+    }
+  },
 
-    "files.trimTrailingWhitespace": true,
+  "[markdown]": {
+    "editor.trimAutoWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true
+  },
+  "[scss]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
 
-    "cSpell.allowCompoundWords": true,
-    "cSpell.userWords": [
-      "dokku",
-      "enrolments",
-      "espcn",
-      "language",
-      "muahaha",
-      "open",
-      "postgresql",
-      "rcodetools",
-      "readline",
-      "rsense",
-      "rubocop",
-      "signup",
-      "strftime",
-      "struct",
-      "touchpad",
-      "uncomment",
-      "upcase",
-      "vardy"
-    ],
-    "cSpell.language": "en-gb",
-    "cSpell.enabledLanguageIds": [
-      "asciidoc",
-      "c",
-      "cpp",
-      "csharp",
-      "css",
-      "go",
-      "handlebars",
-      "html",
-      "jade",
-      "javascript",
-      "javascriptreact",
-      "json",
-      "latex",
-      "less",
-      "markdown",
-      "php",
-      "plaintext",
-      "pub",
-      "python",
-      "restructuredtext",
-      "ruby",
-      "rust",
-      "scss",
-      "text",
-      "typescript",
-      "typescriptreact",
-      "yml"
-    ],
-
-
-    "[markdown]": {
-      // Remove trailing auto inserted whitespace.
-      "editor.trimAutoWhitespace": true,
-      // When enabled, will trim all new lines after the final new line at the end of the file when saving it.
-      "files.trimFinalNewlines": true,
-      // When enabled, will trim trailing whitespace when saving a file.
-      "files.trimTrailingWhitespace": true
-    },
-    "[scss]": {
-      "editor.tabSize": 2,
-      "editor.formatOnSave": true
-    },
-    "[javascript]": {
-      "editor.insertSpaces": true,
-      "editor.tabSize": 2,
-      "editor.formatOnSave": true
-    },
-    "[json]": {
-      "editor.insertSpaces": true,
-      "editor.tabSize": 2,
-      "editor.formatOnSave": true
-    },
-
-    "editor.formatOnType": true,
-    "editor.formatOnPaste": true,
-    "editor.formatOnSaveTimeout": 2000,
-
-    "solargraph.commandPath": "solargraph",
-    "cSpell.words": [
-      "BCSG",
-      "FAPD",
-      "FAPDRBSG",
-      "RBSG",
-      "REENABLED",
-      "arel",
-      "camelize",
-      "inactived",
-      "parameterize",
-      "titleize"
-    ],
-    "workbench.iconTheme": "vscode-great-icons",
-    "search.showLineNumbers": true,
+  "cSpell.allowCompoundWords": true,
+  "cSpell.language": "en-gb",
+  "cSpell.enabledFileTypesanguageIds": [
+    "asciidoc",
+    "c",
+    "cpp",
+    "csharp",
+    "css",
+    "go",
+    "handlebars",
+    "html",
+    "jade",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "latex",
+    "less",
+    "markdown",
+    "php",
+    "plaintext",
+    "pub",
+    "python",
+    "restructuredtext",
+    "ruby",
+    "rust",
+    "scss",
+    "text",
+    "typescript",
+    "typescriptreact",
+    "yml"
+  ],
+  "cSpell.words": [
+    "BCSG",
+    "FAPD",
+    "FAPDRBSG",
+    "RBSG",
+    "REENABLED",
+    "arel",
+    "camelize",
+    "inactived",
+    "parameterize",
+    "titleize"
+    "dokku",
+    "enrolments",
+    "espcn",
+    "language",
+    "muahaha",
+    "open",
+    "postgresql",
+    "rcodetools",
+    "readline",
+    "rsense",
+    "rubocop",
+    "signup",
+    "strftime",
+    "struct",
+    "touchpad",
+    "uncomment",
+    "upcase",
+    "vardy"
+  ],
 }
 
