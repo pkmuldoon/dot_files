@@ -23,12 +23,10 @@
 
       // Basic settings: turn linter(s) on
       "ruby.lint": {
-        "reek": true,
-        "rubocop": true,
-        "ruby": true, //Runs ruby -wc
-        "fasterer": true,
-        "debride": true,
-        "ruby-lint": true
+        "rubocop": {
+          "lint": true, // enable lint cops
+          "rails": true // requires rubocop-rails gem for RuboCop >= 0.72.0
+        }
       },
 
       // Time (ms) to wait after keypress before running enabled linters. Ensures
@@ -42,24 +40,24 @@
     "editor.renderWhitespace": "all",
     "editor.lineHeight": 30,
     "editor.fontWeight": "normal",
-    "editor.fontFamily": "Roboto Mono For Powerline",
-    "editor.fontSize": 18,
+    "editor.fontFamily": "Hack",
+    "editor.fontSize": 22,
     "editor.fontLigatures": true,
     "explorer.openEditors.visible": 0,
-    "window.zoomLevel": 1.5,
+    "window.zoomLevel": 1.0,
     "workbench.sideBar.location": "left",
     "workbench.fontAliasing": "antialiased",
     "workbench.enableExperiments": true,
-    "debug.console.fontFamily": "Roboto Mono For Powerline",
-    "debug.console.fontSize": 18,
+    "debug.console.fontFamily": "Hack",
+    "debug.console.fontSize": 22,
     "debug.inlineValues": true,
     "debug.enableAllHovers": true,
     "debug.focusWindowOnBreak": true,
     "editor.showFoldingControls": "always",
 
     // Terminal
-    "terminal.integrated.fontFamily": "Roboto Mono For Powerline",
-    "terminal.integrated.fontSize": 18,
+    "terminal.integrated.fontFamily": "Hack",
+    "terminal.integrated.fontSize": 22,
     "terminal.integrated.cursorStyle": "block",
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.drawBoldTextInBrightColors": true,
@@ -149,11 +147,11 @@
 
     "[markdown]": {
       // Remove trailing auto inserted whitespace.
-      "editor.trimAutoWhitespace": false,
+      "editor.trimAutoWhitespace": true,
       // When enabled, will trim all new lines after the final new line at the end of the file when saving it.
-      "files.trimFinalNewlines": false,
+      "files.trimFinalNewlines": true,
       // When enabled, will trim trailing whitespace when saving a file.
-      "files.trimTrailingWhitespace": false
+      "files.trimTrailingWhitespace": true
     },
     "[scss]": {
       "editor.tabSize": 2,
@@ -174,8 +172,7 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSaveTimeout": 2000,
 
-
-    "solargraph.commandPath": "${env:GEM_HOME}/bin/solargraph",
+    "solargraph.commandPath": "solargraph",
     "cSpell.words": [
       "BCSG",
       "FAPD",
@@ -188,5 +185,7 @@
       "parameterize",
       "titleize"
     ],
+    "workbench.iconTheme": "vscode-great-icons",
+    "search.showLineNumbers": true,
 }
 
