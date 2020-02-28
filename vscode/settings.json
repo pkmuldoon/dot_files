@@ -36,6 +36,28 @@
   "editor.formatOnType": true,
   "editor.formatOnPaste": true,
   "editor.acceptSuggestionOnEnter": "on",
+  "editor.renderIndentGuides": true,
+  "editor.codeLens": true,
+  "editor.colorDecorators": true,
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.matchBrackets": "always",
+  "editor.highlightActiveIndentGuide": true,
+  "editor.minimap.renderCharacters": true,
+  "editor.minimap.enabled": true,
+  "editor.overviewRulerBorder": true,
+  "editor.smoothScrolling": true,
+  "editor.occurrencesHighlight": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.roundedSelection": true,
+  "editor.rulers": [
+    80,
+    120
+  ],
+
   "window.zoomLevel": 1,
 
   "workbench.sideBar.location": "left",
@@ -47,6 +69,8 @@
   "explorer.openEditors.visible": 0,
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
+
+  "breadcrumbs.enabled": true,
 
   "debug.console.fontFamily": "Hack",
   "debug.console.fontSize": 22,
