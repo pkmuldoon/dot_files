@@ -1,14 +1,11 @@
 {
   // RUBY SETTINGS
-  "gemRoot": "${env:GEM_HOME}/bin/",
-  "rubyRoot": "${env:RUBY_ROOT}/bin",
   "rubocop.executePath": "${env:GEM_HOME}/bin/rubocop",
-  "ruby.codeCompletion":  true,
+  "ruby.codeCompletion": true,
   "ruby.useLanguageServer": true,
   "ruby.format": "rubocop",
   "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
   "ruby.intellisense": "rubyLocate",
-  "ruby.linter.executablePath": "${env:RUBY_ROOT}/bin/ruby",
   "ruby.interpreter.commandPath": "${env:RUBY_ROOT}/bin/ruby",
   // Basic settings: turn linter(s) on
   "ruby.lint": {
@@ -72,7 +69,8 @@
   "terminal.integrated.shell.linux": "/bin/zsh",
 
   "search.showLineNumbers": true,
-
+  "solargraph.rename": true,
+  "solargraph.symbols": true,
   "solargraph.commandPath": "solargraph",
   "solargraph.formatting": true,
   "solargraph.definitions": true,
@@ -81,23 +79,9 @@
   "solargraph.completion": true,
   "solargraph.diagnostics": true,
 
-
   "gitlens.currentLine.enabled": false, // in modern version
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.recentChange.enabled": false,
-
-  // FORMATTING
-  "beautify.language": {
-    "js": {
-      "type": ["javascript", "json"],
-      "filename": [".jshintrc", ".jsbeautifyrc"]
-    },
-    "css": ["css", "scss"],
-    "html": {
-      "type": ["htm", "html"],
-      "filename": [".html.eex", ".html.leex", ".html.erb", ".html"]
-    }
-  },
 
   "[markdown]": {
     "editor.trimAutoWhitespace": true,
@@ -121,7 +105,7 @@
 
   "cSpell.allowCompoundWords": true,
   "cSpell.language": "en-gb",
-  "cSpell.enabledFileTypesanguageIds": [
+  "cSpell.enabledFileTypes": [
     "asciidoc",
     "c",
     "cpp",
