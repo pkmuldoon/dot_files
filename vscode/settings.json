@@ -1,8 +1,14 @@
 {
+  "workbench.colorTheme": "Visual Studio Dark" ,
+  "outline.icons": true,
+  "breadcrumbs.icons": true,
+  "workbench.preferredDarkColorTheme": "Default Dark+",
+
   // RUBY SETTINGS
   "rubocop.executePath": "${env:GEM_HOME}/bin/rubocop",
-  "ruby.codeCompletion": true,
+  //  "ruby.codeCompletion":
   "ruby.useLanguageServer": true,
+
   "ruby.format": "rubocop",
   "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
   "ruby.intellisense": "rubyLocate",
@@ -19,8 +25,12 @@
   // linters are only run when typing has finished and not for every keypress
   "ruby.lintDebounceTime": 500,
 
-  // VISUAL
+  // Editor
   "editor.tabSize": 2,
+  "editor.lineNumbers": "on",
+  "editor.detectIndentation": true,
+  "editor.lightbulb.enabled": true,
+  "editor.acceptSuggestionOnEnter": "off",
   "editor.wordBasedSuggestions": false,
   "editor.cursorStyle": "block",
   "editor.cursorWidth": 50,
@@ -35,7 +45,6 @@
   "editor.formatOnSave": false,
   "editor.formatOnType": true,
   "editor.formatOnPaste": true,
-  "editor.acceptSuggestionOnEnter": "on",
   "editor.renderIndentGuides": true,
   "editor.codeLens": true,
   "editor.colorDecorators": true,
@@ -58,26 +67,30 @@
     120
   ],
 
+  // Windows
   "window.zoomLevel": 1,
 
+  // Workbench
   "workbench.sideBar.location": "left",
   "workbench.fontAliasing": "antialiased",
   "workbench.enableExperiments": true,
   "workbench.editor.highlightModifiedTabs": true,
-  "workbench.iconTheme": "vscode-great-icons",
-
+  //"workbench.iconTheme": "vscode-great-icons",
+  "workbench.activityBar.visible": true,
   "explorer.openEditors.visible": 0,
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
 
   "breadcrumbs.enabled": true,
 
+  // Debugger
   "debug.console.fontFamily": "Hack",
   "debug.console.fontSize": 22,
   "debug.inlineValues": true,
   "debug.enableAllHovers": true,
   "debug.focusWindowOnBreak": true,
 
+  // Files
   "files.trimTrailingWhitespace": true,
   "files.autoSave": "afterDelay",
 
@@ -92,6 +105,7 @@
   "terminal.integrated.enableFileLinks": true,
   "terminal.integrated.shell.linux": "/bin/zsh",
 
+  // Solargraph
   "search.showLineNumbers": true,
   "solargraph.rename": true,
   "solargraph.symbols": true,
@@ -103,10 +117,12 @@
   "solargraph.completion": true,
   "solargraph.diagnostics": true,
 
+  // Gitlens
   "gitlens.currentLine.enabled": false, // in modern version
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.codeLens.recentChange.enabled": false,
 
+  // Other file defaults.
   "[markdown]": {
     "editor.trimAutoWhitespace": true,
     "files.trimFinalNewlines": true,
@@ -127,6 +143,7 @@
     "editor.formatOnSave": true
   },
 
+  // Spelling
   "cSpell.allowCompoundWords": true,
   "cSpell.language": "en-gb",
   "cSpell.enabledFileTypes": [
@@ -168,7 +185,7 @@
     "camelize",
     "inactived",
     "parameterize",
-    "titleize"
+    "titleize",
     "dokku",
     "enrolments",
     "espcn",
