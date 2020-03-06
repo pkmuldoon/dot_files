@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Visual Studio Dark" ,
+  "workbench.colorTheme": "Dracula At Night" ,
   "outline.icons": true,
   "breadcrumbs.icons": true,
   "workbench.preferredDarkColorTheme": "Default Dark+",
@@ -39,7 +39,7 @@
   "editor.lineHeight": 0,
   "editor.fontWeight": "normal",
   "editor.fontFamily": "Hack",
-  "editor.fontSize": 22,
+  "editor.fontSize": 18,
   "editor.fontLigatures": true,
   "editor.showFoldingControls": "always",
   "editor.formatOnSave": false,
@@ -68,14 +68,14 @@
   ],
 
   // Windows
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 2,
 
   // Workbench
   "workbench.sideBar.location": "left",
   "workbench.fontAliasing": "antialiased",
   "workbench.enableExperiments": true,
   "workbench.editor.highlightModifiedTabs": true,
-  //"workbench.iconTheme": "vscode-great-icons",
+  "workbench.iconTheme": "vscode-great-icons",
   "workbench.activityBar.visible": true,
   "explorer.openEditors.visible": 0,
   "explorer.confirmDragAndDrop": false,
@@ -85,7 +85,7 @@
 
   // Debugger
   "debug.console.fontFamily": "Hack",
-  "debug.console.fontSize": 22,
+  "debug.console.fontSize": 16,
   "debug.inlineValues": true,
   "debug.enableAllHovers": true,
   "debug.focusWindowOnBreak": true,
@@ -96,7 +96,7 @@
 
   // Terminal
   "terminal.integrated.fontFamily": "Hack",
-  "terminal.integrated.fontSize": 22,
+  "terminal.integrated.fontSize": 16,
   "terminal.integrated.cursorStyle": "block",
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.drawBoldTextInBrightColors": true,
@@ -205,5 +205,6 @@
     "upcase",
     "vardy"
   ],
+  "liveshare.diagnosticLogging": true,
 }
 
