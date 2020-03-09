@@ -145,7 +145,7 @@
 
   // Spelling
   "cSpell.allowCompoundWords": true,
-  "cSpell.language": "en-gb",
+  "cSpell.language": "en-GB",
   "cSpell.enabledFileTypes": [
     "asciidoc",
     "c",
@@ -206,5 +206,13 @@
     "vardy"
   ],
   "liveshare.diagnosticLogging": true,
+  "sync.autoDownload": true,
+  "sync.autoUpload": true,
+  "sync.gist": "bb59b15f7b87a4d1435bd3399db6ed09",
+  "cSpell.enableFiletypes": [
+    "ruby"
+  ],
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
 }
 
