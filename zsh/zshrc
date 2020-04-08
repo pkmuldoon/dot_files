@@ -44,69 +44,51 @@ alias cat='bat'
 alias ls='ls -G'
 
 # FZF setup
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'                                                    
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(emacs {})+abort'
 --color=dark
 --color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
 --color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7" 
 
+fpath=($fpath ~/autoloaded)
+autoload fpreview fif fkill fbrewi fbrewu fbrewd
+
 # preview - fuzzy open with emacs from anywhere
 # ex: preview word1 word2 ... (even part of a file name)
 fpreview() {
-    fzf --preview 'bat --wrap=character --terminal-width=$FZF_PREVIEW_COLUMNS --color "always" {}'
+  # undefined
+	builtin autoload -X
 }
 
 # fif - Find in file and open it.
 fif() {
-    if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-    local file
-    file="$(rga --max-count=1 --ignore-case --files-with-matches --no-messages "$@" | fzf-tmux +m --preview="rga --ignore-case --pretty --context 10 '"$@"' {}")" && open "$file"
+  # undefined
+	builtin autoload -X
 }
 
 # fkill - Kill processes - list only processes user can kill.
 fkill() {
-    local pid 
-    if [ "$UID" != "0" ]; then
-        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
-    else
-        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi  
-
-    if [ "x$pid" != "x" ]
-    then
-        echo $pid | xargs kill -${1:-9}
-    fi  
+  # undefined
+	builtin autoload -X
 }
 
 # fbrewi - Install (one or multiple) selected application(s)
 # using "brew search" as source input
 fbrewi() {
-  local inst=$(brew search | fzf -m)
-
-  if [[ $inst ]]; then
-    for prog in $(echo $inst);
-    do; brew install $prog; done;
-  fi
+  # undefined
+	builtin autoload -X
 }
 
 # fbrewu - Update (one or multiple) selected application(s)
 fbrewu() {
-  local upd=$(brew leaves | fzf -m)
-
-  if [[ $upd ]]; then
-    for prog in $(echo $upd);
-    do; brew upgrade $prog; done;
-  fi
+  # undefined
+	builtin autoload -X
 }
 
 # fbrewd - elete (one or multiple) selected application(s)
 fbrewd() {
-  local uninst=$(brew leaves | fzf -m)
-
-  if [[ $uninst ]]; then
-    for prog in $(echo $uninst);
-    do; brew uninstall $prog; done;
-  fi
+  # undefined
+	builtin autoload -X
 }
 
 # Set mouse scaling
@@ -123,6 +105,7 @@ export DISABLE_SPRING=true
 export FZF_COMPLETION_TRIGGER=''
 bindkey '^T' fzf-completion
 bindkey '^I' $fzf_default_completion
+export AWS_VAULT_KEYCHAIN_NAME=login
 
 # Prompt
 eval "$(starship init zsh)"
