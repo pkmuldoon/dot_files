@@ -1,10 +1,9 @@
+# Plugins
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 zplug "zsh-users/zsh-autosuggestions"
 zplug "plugins/git", from:oh-my-zsh
 zplug "zdharma/fast-syntax-highlighting", defer:3
-zplug "rupa/z", as:plugin, use:z.sh
-zplug "ael-code/zsh-colored-man-pages"
 zplug "zsh-users/zsh-completions"
 
 # Install plugins if there are plugins that have not been installed
@@ -15,7 +14,7 @@ fi
 # Load everything
 zplug load
 
-
+# Global exports
 export TERM="xterm-256color"
 export PATH="/usr/local/opt/qt@5.5/bin:/usr/local/bin:$HOME/bin:$HOME/usr/local/bin:/Users/phillipmuldoon/.cask/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
@@ -44,12 +43,20 @@ alias cat='bat'
 alias ls='ls -G'
 
 # FZF setup
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'                                                    
+# FZF defaults
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(emacs {})+abort'
 --color=dark
 --color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
 --color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7" 
 
+# FZF completion
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_COMPLETION_TRIGGER=''
+bindkey '^T' fzf-completion
+bindkey '^I' $fzf_default_completion
+
+# Lazily load ZSH functions.
 fpath=($fpath ~/autoloaded)
 autoload fpreview fif fkill fbrewi fbrewu fbrewd
 
@@ -100,12 +107,8 @@ alias favpn="osascript -e 'tell application \"Viscosity\" to connect \"Corporate
 # We don't go to Ravenholm^H^H^H^HSpring
 export DISABLE_SPRING=true
 
-# FZF completion
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_COMPLETION_TRIGGER=''
-bindkey '^T' fzf-completion
-bindkey '^I' $fzf_default_completion
+# Setup AWS
 export AWS_VAULT_KEYCHAIN_NAME=login
 
-# Prompt
+# Prompt (must go last in this file)
 eval "$(starship init zsh)"
