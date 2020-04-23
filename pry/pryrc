@@ -1,12 +1,14 @@
+Pry.color = true
+Pry.config.color = true
+
 if ENV['INSIDE_EMACS']
   Pry.config.correct_indent = false
   Pry.config.pager = false
 end
 
 Pry.config.editor = ENV['VISUAL']
-Pry.config.color = true
 
-Pry.config.history.should_save = true
+Pry.config.history_save = true
 Pry::Commands.command /^$/, "repeat last command" do
   _pry_.run_command Pry.history.to_a.last
 end
@@ -40,30 +42,13 @@ if defined?(Rails)
   Pry.config.prompt = proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }
 end
 
-# === Listing config ===
-# Better colors - by default the headings for methods are too 
-# similar to method name colors leading to a "soup"
-# These colors are optimized for use with Solarized scheme 
-# for your terminal
-Pry.config.ls.separator = "\n" # new lines between methods
-Pry.config.ls.heading_color = :magenta
-Pry.config.ls.public_method_color = :green
-Pry.config.ls.protected_method_color = :yellow
-Pry.config.ls.private_method_color = :bright_black
-
 # == PLUGINS ===
 # awesome_print gem: great syntax colorized printing
 # look at ~/.aprc for more settings for awesome_print
 begin
   $LOAD_PATH.unshift '/Users/phillipmuldoon/.gem/ruby/2.6.5/gems/awesome_print-1.8.0/lib/'
   require 'awesome_print'
-
-  # The following line enables awesome_print for all pry output,
-  # and it also enables paging
-  #Pry.config.print = proc {|output, value| Pry::Helpers::BaseHelpers.stagger_output("=> #{value.ai}", output)}
-
-  # If you want awesome_print without automatic pagination, use the line below
-  #Pry.config.print = proc { |output, value| output.puts value.ai }
+  AwesomePrint.pry!
 rescue LoadError => err
   puts "gem install awesome_print  # <-- highly recommended"
 end
