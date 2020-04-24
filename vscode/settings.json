@@ -6,9 +6,7 @@
 
   // RUBY SETTINGS
   "rubocop.executePath": "${env:GEM_HOME}/bin/rubocop",
-  //  "ruby.codeCompletion":
   "ruby.useLanguageServer": true,
-
   "ruby.format": "rubocop",
   "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
   "ruby.intellisense": "rubyLocate",
@@ -203,16 +201,23 @@
     "touchpad",
     "uncomment",
     "upcase",
-    "vardy"
+    "vardy",
+    "HUMIO"
+
   ],
-  "liveshare.diagnosticLogging": true,
   "sync.autoDownload": true,
   "sync.autoUpload": true,
   "sync.gist": "bb59b15f7b87a4d1435bd3399db6ed09",
-  "cSpell.enableFiletypes": [
-    "ruby"
-  ],
   "editor.suggestSelection": "first",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "[ruby]": {
+    "editor.defaultFormatter": "misogi.ruby-rubocop"
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "errorLens.addAnnotationTextPrefixes": true,
+  "errorLens.addNumberOfDiagnostics": true,
+  "scm.alwaysShowActions": true,
+  "scm.alwaysShowProviders": true,
+  "workbench.tree.renderIndentGuides": "always",
 }
 
