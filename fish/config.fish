@@ -7,13 +7,27 @@ set -gx GOPATH $HOME/.go
 set -gx PATH /usr/local/opt/qt@5.5/bin:/usr/local/bin:$HOME/bin:$HOME/usr/local/bin:/Users/phillipmuldoon/.cask/bin:$GOPATH/bin:$GOROOT/bin $PATH
 set -gx NVM_DIR $HOME/.nvm
 
+set fish_complete_path ~/.config/fish/completions/ \
+  /usr/local/share/fish/completions/ \
+  /usr/local/share/fish/vendor_completions.d/ \
+  $fish_complete_path
+
+function reload
+  set -l config (status -f)
+  echo "reloading: $config" source $config
+end
+
 #source /usr/local/share/chruby/chruby.fish
 #source /usr/local/share/chruby/auto.fish
 
 alias rsp='bundle exec rspec'
 alias rke='bundle exec rails'
 alias agi='ag --ignore-dir=tmp --ignore-dir=log --path-to-ignore ~/.ignore'
+
 alias cat='bat'
+set -gx PAGER "bat -p" 
+set -gx MANPAGER "sh -c 'col -b | bat -l man -p'"
+alias ls='exa'
 alias preview="fzf --preview 'bat --color \"always\" {}'"                                                                                                                                    
 alias favpn="osascript -e 'tell application \"Viscosity\" to connect \"Corporate VPN V3.0\"'"
 alias emacs="/usr/local/opt/emacs-plus/Emacs.app/Contents/MacOS/Emacs"
@@ -32,6 +46,7 @@ export DIRENV_LOG_FORMAT=
 direnv hook fish | source
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
 
+export DISABLE_SPRING=1
 # Increase number of open files to appease chromedriver
 ulimit -n 2056
 
