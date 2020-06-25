@@ -1,24 +1,28 @@
+# Presentation. Colour defaults.
 Pry.color = true
 Pry.config.color = true
 
+# If we're inside EMACS, we don't want paging or indentation support.
 if ENV['INSIDE_EMACS']
   Pry.config.correct_indent = false
   Pry.config.pager = false
 end
-
 Pry.config.editor = ENV['VISUAL']
 
+# Save history, and configure an <ENTER> with no input as run thge last command.
 Pry.config.history_save = true
 Pry::Commands.command /^$/, "repeat last command" do
   _pry_.run_command Pry.history.to_a.last
 end
 
+# Alias to match GDB abbreviations.
 Pry.commands.alias_command 'c', 'continue' rescue nil
 Pry.commands.alias_command 's', 'step' rescue nil
 Pry.commands.alias_command 'n', 'next' rescue nil
 Pry.commands.alias_command 'f', 'finish' rescue nil
-Pry.commands.alias_command 'bt', 'whereami' rescue nil
+Pry.commands.alias_command 'bt', 'backtrace' rescue nil
 Pry.commands.alias_command 'r!', 'reload!' rescue nil
+
 
 def formatted_env
   case Rails.env
@@ -38,19 +42,19 @@ def app_name
   File.basename(Rails.root)
 end
 
+# Change the font it we're in RAILS to a RAILS specific prompt.
 if defined?(Rails)
   Pry.config.prompt = proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }
 end
 
 # == PLUGINS ===
-# awesome_print gem: great syntax colorized printing
-# look at ~/.aprc for more settings for awesome_print
+# amazing_print gem: great syntax colorized printing
 begin
-  $LOAD_PATH.unshift '/Users/phillipmuldoon/.gem/ruby/2.6.5/gems/awesome_print-1.8.0/lib/'
-  require 'awesome_print'
-  AwesomePrint.pry!
+  $LOAD_PATH << "~/.gem/ruby/2.7.1/gems/amazing_print-1.2.0/lib"
+  require  "amazing_print"
+  AmazingPrint.pry!
 rescue LoadError => err
-  puts "gem install awesome_print  # <-- highly recommended"
+  puts "gem install amazing_print  # <-- highly recommended"
 end
 
 # === CUSTOM COMMANDS ===
@@ -60,14 +64,39 @@ default_command_set = Pry::CommandSet.new do
      IO.popen('pbcopy', 'w') { |f| f << str.to_s }
   end
 
+  # Print a backtrace with only project frames (no gems or framework)
+  command "sbt", "Sane (project only) backtrace" do
+    gems_paths = (Gem.path | [Gem.default_dir]).map { |p| Regexp.escape(p) }
+    gems_regexp = %r{(#{gems_paths.join('|')})/(bundler/)?gems/([^/]+)-([\w.]+)/(.*)}
+
+    elided = 0
+    caller.each do |c|
+      if c.match(gems_regexp)
+        elided = elided + 1
+      else
+        if elided != 0
+          p = elided > 1 ? "frames" : "frame"
+          puts "(elided #{elided} non-project #{p})".gray
+          elided = 0
+        end
+        ss = c.split(":")
+        print ss[0].red
+        print ":" + ss[1].green + ":"
+        puts ss[2].blue
+      end
+    end
+  end
+
+  # Clear the screen.
   command "clear" do
-    system 'clear'
-    if ENV['RAILS_ENV']
+    system "clear"
+    if ENV["RAILS_ENV"]
       output.puts "Rails Environment: " + ENV['RAILS_ENV']
     end
   end
 
-  command "sql", "Send sql over AR." do |query|
+  # Send SQL over ActiveRecord
+  command "sql", "Send sql over ActiveRecord." do |query|
     if ENV['RAILS_ENV'] || defined?(Rails)
       pp ActiveRecord::Base.connection.select_all(query)
     else
@@ -81,14 +110,15 @@ default_command_set = Pry::CommandSet.new do
       file   = Regexp.last_match[1]
       line   = Regexp.last_match[2].to_i
       method = Regexp.last_match[3]
-      output.puts [file, line, method]
+      output.puts "file: #{file}:"
+      output.puts "   method/line: #{method}:#{line}"
     end
   end
 end
 
 Pry.config.commands.import default_command_set
 
-# tell Readline when the window resizes
+# Inform Readline when the window resizes
 old_winch = trap 'WINCH' do
   if `stty size` =~ /\A(\d+) (\d+)\n\z/
     Readline.set_screen_size $1.to_i, $2.to_i
@@ -96,7 +126,7 @@ old_winch = trap 'WINCH' do
   old_winch.call unless old_winch.nil? || old_winch == 'SYSTEM_DEFAULT'
 end
 
-# startup hooks
+# Hooks
 org_logger_active_record = nil
 org_logger_rails = nil
 Pry.hooks.add_hook :before_session, :rails do |output, target, pry|
