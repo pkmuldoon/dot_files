@@ -1,29 +1,40 @@
-# Presentation. Colour defaults.
-Pry.color = true
-Pry.config.color = true
-
+# Editor
+Pry.editor = 'emacs'
+Pry.config.editor = ENV['VISUAL']
 # If we're inside EMACS, we don't want paging or indentation support.
 if ENV['INSIDE_EMACS']
   Pry.config.correct_indent = false
   Pry.config.pager = false
 end
-Pry.config.editor = ENV['VISUAL']
 
-# Save history, and configure an <ENTER> with no input as run thge last command.
+
+# Presentation. Colour defaults.
+Pry.color = true
+Pry.config.color = true
+
+
+# Save history, and configure  <ENTER> with no input to run the last command.
 Pry.config.history_save = true
 Pry::Commands.command /^$/, "repeat last command" do
   _pry_.run_command Pry.history.to_a.last
 end
 
-# Alias to match GDB abbreviations.
-Pry.commands.alias_command 'c', 'continue' rescue nil
-Pry.commands.alias_command 's', 'step' rescue nil
-Pry.commands.alias_command 'n', 'next' rescue nil
-Pry.commands.alias_command 'f', 'finish' rescue nil
+# Alias to match GDB/LLDB abbreviations.
+if defined?(PryByebug) || defined?(PryDebugger)
+   Pry.commands.alias_command 'c', 'continue' rescue nil
+   Pry.commands.alias_command 's', 'step' rescue nil
+   Pry.commands.alias_command 'n', 'next' rescue nil
+   Pry.commands.alias_command 'f', 'finish' rescue nil
+end
 Pry.commands.alias_command 'bt', 'backtrace' rescue nil
+Pry.commands.alias_command 'frame up', 'up'
+Pry.commands.alias_command 'frame down', 'down'
+
+# Some other Aliases
 Pry.commands.alias_command 'r!', 'reload!' rescue nil
 
 
+# Format the prompt
 def formatted_env
   case Rails.env
   when 'production'
@@ -42,7 +53,7 @@ def app_name
   File.basename(Rails.root)
 end
 
-# Change the font it we're in RAILS to a RAILS specific prompt.
+# Change the prompt if  we're in RAILS to a RAILS specific prompt.
 if defined?(Rails)
   Pry.config.prompt = proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }
 end
@@ -58,8 +69,10 @@ rescue LoadError => err
 end
 
 # === CUSTOM COMMANDS ===
-# from: https://gist.github.com/1297510
+
 default_command_set = Pry::CommandSet.new do
+
+  # Copy an argument to the clipboard
   command "copy", "Copy argument to the clip-board" do |str|
      IO.popen('pbcopy', 'w') { |f| f << str.to_s }
   end
@@ -104,6 +117,7 @@ default_command_set = Pry::CommandSet.new do
     end
   end
 
+  # What's the caller's method?
   command "caller_method" do |depth|
     depth = depth.to_i || 1
     if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(depth+1).first
@@ -119,6 +133,7 @@ end
 Pry.config.commands.import default_command_set
 
 # Inform Readline when the window resizes
+
 old_winch = trap 'WINCH' do
   if `stty size` =~ /\A(\d+) (\d+)\n\z/
     Readline.set_screen_size $1.to_i, $2.to_i
@@ -127,6 +142,20 @@ old_winch = trap 'WINCH' do
 end
 
 # Hooks
+preload_hook = Pry::Hooks.new.add_hook(:before_session, :add_dirs_to_load_path) do
+  # adds the directories /spec and /lib to the path if they exist and not already included
+  dir = `pwd`.chomp
+  dirs_added = []
+  %w(spec lib).map{ |d| "#{dir}/#{d}" }.each do |p|
+    if File.exist?(p) && !$:.include?(p)
+      $: << p
+      dirs_added << p
+    end
+  end
+  puts "Added #{ dirs_added.join(", ") } to load path in ~/.pryrc." if dirs_added.present?
+end
+preload_hook.exec_hook(:before_session)
+
 org_logger_active_record = nil
 org_logger_rails = nil
 Pry.hooks.add_hook :before_session, :rails do |output, target, pry|
@@ -154,4 +183,61 @@ end
 Pry.hooks.add_hook :after_session, :rails do |output, target, pry|
   ActiveRecord::Base.logger = org_logger_active_record if org_logger_active_record
   Rails.logger = org_logger_rails if org_logger_rails
+end
+
+# Some monkey patching longggggg methods to short ones.
+class Symbol
+  def to_proc
+    chain = to_s.split('__')
+    proc do |obj|
+      chain.reduce(obj) { |r, m| r.send(m) }
+    end
+  end
+end
+
+class Object
+  def ivs
+    instance_variables
+  end
+
+  def iv(name)
+    name = "@#{name}" unless name.to_s.start_with?("@")
+    instance_variable_get(name)
+  end
+
+  def ivset(name, val)
+    name = "@#{name}" unless name.to_s.start_with?("@")
+    instance_variable_set(name, val)
+  end
+end
+
+# Make sizeof = memory size.
+def sizeof(target, seen = nil)
+  require 'objspace'
+  require 'set'
+
+  seen    ||= Set.new
+  reachable = ObjectSpace.reachable_objects_from(target)
+
+  reachable.reduce(ObjectSpace.memsize_of(target)) do |sum, obj|
+    next sum if obj.is_a?(Module)
+    next sum if seen.member?(obj.object_id)
+    seen.add(obj.object_id)
+    sum += sizeof(obj, seen)
+  end
+end
+
+def sizeof_composed(target, show_contents=false)
+   objects = Set.new
+   sizeof(target, objects)
+   objects.each do |object| 
+     identity = ObjectSpace._id2ref(object)
+     puts "======================================================================"
+     puts "Class: #{identity.class}"
+     if show_contents == true then
+          puts "Contents:"
+          ap identity
+     end
+     puts "======================================================================"
+   end
 end
