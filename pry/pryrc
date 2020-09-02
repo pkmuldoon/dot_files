@@ -12,7 +12,6 @@ end
 Pry.color = true
 Pry.config.color = true
 
-
 # Save history, and configure  <ENTER> with no input to run the last command.
 Pry.config.history_save = true
 Pry::Commands.command /^$/, "repeat last command" do
@@ -61,11 +60,17 @@ end
 # == PLUGINS ===
 # amazing_print gem: great syntax colorized printing
 begin
-  $LOAD_PATH << "~/.gem/ruby/2.7.1/gems/amazing_print-1.2.0/lib"
+  $LOAD_PATH << ENV['GEM_HOME'] << "/gems/amazing_print-1.2.0/lib"
   require  "amazing_print"
   AmazingPrint.pry!
 rescue LoadError => err
   puts "gem install amazing_print  # <-- highly recommended"
+end
+
+# === REFORMAT EXCEPTIONS ===
+Pry.config.exception_handler = proc do |output, exception, _|
+  output.puts "\e[31m#{exception.class}: #{exception.message}"
+  output.puts "from #{exception.backtrace.first}\e[0m"
 end
 
 # === CUSTOM COMMANDS ===
@@ -186,16 +191,12 @@ Pry.hooks.add_hook :after_session, :rails do |output, target, pry|
 end
 
 # Some monkey patching longggggg methods to short ones.
-class Symbol
-  def to_proc
-    chain = to_s.split('__')
-    proc do |obj|
-      chain.reduce(obj) { |r, m| r.send(m) }
-    end
-  end
-end
-
 class Object
+
+  def ims
+    (self.methods - Object.instance_methods).sort
+  end
+
   def ivs
     instance_variables
   end
