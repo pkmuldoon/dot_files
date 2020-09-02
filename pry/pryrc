@@ -54,7 +54,11 @@ end
 
 # Change the prompt if  we're in RAILS to a RAILS specific prompt.
 if defined?(Rails)
-  Pry.config.prompt = proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }
+  Pry.config.prompt = Pry::Prompt.new(
+    "custom", 
+    "FA prompt",
+    [proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }]
+  )
 end
 
 # == PLUGINS ===
