@@ -64,7 +64,7 @@ end
 # == PLUGINS ===
 # amazing_print gem: great syntax colorized printing
 begin
-  $LOAD_PATH << ENV['GEM_HOME'] << "/gems/amazing_print-1.2.0/lib"
+  $LOAD_PATH << (ENV['GEM_HOME'] + "/gems/amazing_print-1.2.0/lib")
   require  "amazing_print"
   AmazingPrint.pry!
 rescue LoadError => err
