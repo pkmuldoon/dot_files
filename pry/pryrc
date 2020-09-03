@@ -15,7 +15,7 @@ Pry.config.color = true
 # Save history, and configure  <ENTER> with no input to run the last command.
 Pry.config.history_save = true
 Pry::Commands.command /^$/, "repeat last command" do
-  _pry_.run_command Pry.history.to_a.last
+  pry_instance.run_command Pry.history.to_a.last
 end
 
 # Alias to match GDB/LLDB abbreviations.
