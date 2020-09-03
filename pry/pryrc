@@ -86,7 +86,9 @@ default_command_set = Pry::CommandSet.new do
      IO.popen('pbcopy', 'w') { |f| f << str.to_s }
   end
 
-  # Print a backtrace with only project frames (no gems or framework)
+  # Print a backtrace with only project frames (no gems or framework).
+  # This requires amazing_print. If you don't want that gem, then remove
+  # `gray, red, and blue` annotations below
   command "sbt", "Sane (project only) backtrace" do
     gems_paths = (Gem.path | [Gem.default_dir]).map { |p| Regexp.escape(p) }
     gems_regexp = %r{(#{gems_paths.join('|')})/(bundler/)?gems/([^/]+)-([\w.]+)/(.*)}
@@ -126,7 +128,7 @@ default_command_set = Pry::CommandSet.new do
     end
   end
 
-  # What's the caller's method?
+  # What's the caller of the current method?
   command "caller_method" do |depth|
     depth = depth.to_i || 1
     if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(depth+1).first
