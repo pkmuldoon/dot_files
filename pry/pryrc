@@ -52,10 +52,10 @@ def app_name
   File.basename(Rails.root)
 end
 
-# Change the prompt if  we're in RAILS to a RAILS specific prompt.
+# Change the prompt if we're in RAILS to a RAILS specific prompt.
 if defined?(Rails)
   Pry.config.prompt = Pry::Prompt.new(
-    "custom", 
+    "custom",
     "FA prompt",
     [proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }]
   )
@@ -63,6 +63,7 @@ end
 
 # == PLUGINS ===
 # amazing_print gem: great syntax colorized printing
+# Not sure why we have to populate the load path here, but we do.
 begin
   $LOAD_PATH << (ENV['GEM_HOME'] + "/gems/amazing_print-1.2.0/lib")
   require  "amazing_print"
@@ -81,7 +82,7 @@ end
 
 default_command_set = Pry::CommandSet.new do
 
-  # Copy an argument to the clipboard
+  # Copy an argument to the clipboard. Needs pbcopy.
   command "copy", "Copy argument to the clip-board" do |str|
      IO.popen('pbcopy', 'w') { |f| f << str.to_s }
   end
@@ -128,7 +129,7 @@ default_command_set = Pry::CommandSet.new do
     end
   end
 
-  # What's the caller of the current method?
+  # What method called the method we're currently in?
   command "caller_method" do |depth|
     depth = depth.to_i || 1
     if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(depth+1).first
@@ -235,16 +236,16 @@ def sizeof(target, seen = nil)
 end
 
 def sizeof_composed(target, show_contents=false)
-   objects = Set.new
-   sizeof(target, objects)
-   objects.each do |object| 
-     identity = ObjectSpace._id2ref(object)
-     puts "======================================================================"
-     puts "Class: #{identity.class}"
-     if show_contents == true then
-          puts "Contents:"
-          ap identity
-     end
-     puts "======================================================================"
-   end
+  objects = Set.new
+  sizeof(target, objects)
+  objects.each do |object|
+    identity = ObjectSpace._id2ref(object)
+    puts "======================================================================"
+    puts "Class: #{identity.class}"
+    if show_contents == true then
+      puts "Contents:"
+      ap identity
+    end
+    puts "======================================================================"
+  end
 end
