@@ -47,8 +47,29 @@ direnv hook fish | source
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
 
 export DISABLE_SPRING=1
+
+# Set pj directories
+set -gx PROJECT_PATHS ~/dev/dev-dashboard ~/dev/freeagent ~/
+
 # Increase number of open files to appease chromedriver
 ulimit -n 2056
+source /usr/local/share/chruby/chruby.fish
+#set -gx SKIM_DEFAULT_COMMAND "fd --type f -E ".svg" -E ".csv" -E ".txt" -E ".ofx""
+set -gx SKIM_DEFAULT_COMMAND fd --type f || git ls-tree -r --name-only HEAD || rg --files || find .
+
+function rgi
+    set rg_command "rg --color=always --line-number $argv"
+    echo $rg_command
+    sk --ansi -i -c "$rg_command"
+end
+
+function codef
+    set rg_command "(rg $argv --color=always --line-number -t ruby -t js -t coffeescript -t erb -t html -t css"
+
+    set result (rg $argv --color=always --line-number -t ruby -t js -t coffeescript -t erb -t html -t css  | fzf  --ansi -i | awk -F ": " '{print $1}' | sed s/$rg_command//)
+    echo "Opening code with $result"
+    code -g $result
+end
 
 starship init fish | source
 
