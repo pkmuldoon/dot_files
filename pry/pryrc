@@ -1,5 +1,5 @@
 # Editor
-Pry.editor = 'emacs'
+Pry.editor = ENV['EDTIOR']
 Pry.config.editor = ENV['VISUAL']
 # If we're inside EMACS, we don't want paging or indentation support.
 if ENV['INSIDE_EMACS']
@@ -21,7 +21,7 @@ end
 # Alias to match GDB/LLDB abbreviations.
 if defined?(PryByebug) || defined?(PryDebugger)
    Pry.commands.alias_command 'c', 'continue' rescue nil
-   Pry.commands.alias_command 's', 'step' rescue nil
+   Pry.commands.alias_command 'ss', 'step' rescue nil
    Pry.commands.alias_command 'n', 'next' rescue nil
    Pry.commands.alias_command 'f', 'finish' rescue nil
 end
@@ -49,10 +49,14 @@ def formatted_env
 end
 
 def app_name
-  File.basename(Rails.root)
+  if Rails.root.present?
+    File.basename(Rails.root)
+  else
+    ""
+  end
 end
 
-# Change the prompt if we're in RAILS to a RAILS specific prompt.
+# Change the prompt if  we're in RAILS to a RAILS specific prompt.
 if defined?(Rails)
   Pry.config.prompt = Pry::Prompt.new(
     "custom",
@@ -63,14 +67,17 @@ end
 
 # == PLUGINS ===
 # amazing_print gem: great syntax colorized printing
-# Not sure why we have to populate the load path here, but we do.
 begin
-  $LOAD_PATH << (ENV['GEM_HOME'] + "/gems/amazing_print-1.2.0/lib")
+  $LOAD_PATH << (ENV['GEM_HOME'] + "/gems/amazing_print-1.2.2/lib")
   require  "amazing_print"
   AmazingPrint.pry!
 rescue LoadError => err
   puts "gem install amazing_print  # <-- highly recommended"
 end
+
+#$LOAD_PATH << (ENV['GEM_HOME'] + "/gems/live_backtrace-0.1.0/lib")
+#require "live_backtrace"
+#Trace.trace!
 
 # === REFORMAT EXCEPTIONS ===
 Pry.config.exception_handler = proc do |output, exception, _|
@@ -82,7 +89,8 @@ end
 
 default_command_set = Pry::CommandSet.new do
 
-  # Copy an argument to the clipboard. Needs pbcopy.
+
+  # Copy an argument to the clipboard
   command "copy", "Copy argument to the clip-board" do |str|
      IO.popen('pbcopy', 'w') { |f| f << str.to_s }
   end
@@ -101,13 +109,14 @@ default_command_set = Pry::CommandSet.new do
       else
         if elided != 0
           p = elided > 1 ? "frames" : "frame"
-          puts "(elided #{elided} non-project #{p})".gray
+          colours(:grey) { puts "(elided #{elided} non-project #{p})" }
           elided = 0
         end
         ss = c.split(":")
-        print ss[0].red
-        print ":" + ss[1].green + ":"
-        puts ss[2].blue
+        colours(:red) { print ss[0] }
+        colours(:green) { print ":" + ss[1] }
+        print " " 
+        colours(:blue) { puts ss[2] }
       end
     end
   end
@@ -129,7 +138,7 @@ default_command_set = Pry::CommandSet.new do
     end
   end
 
-  # What method called the method we're currently in?
+  # What's the caller of the current method?
   command "caller_method" do |depth|
     depth = depth.to_i || 1
     if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(depth+1).first
@@ -236,16 +245,26 @@ def sizeof(target, seen = nil)
 end
 
 def sizeof_composed(target, show_contents=false)
-  objects = Set.new
-  sizeof(target, objects)
-  objects.each do |object|
-    identity = ObjectSpace._id2ref(object)
-    puts "======================================================================"
-    puts "Class: #{identity.class}"
-    if show_contents == true then
-      puts "Contents:"
-      ap identity
-    end
-    puts "======================================================================"
-  end
+   objects = Set.new
+   sizeof(target, objects)
+   objects.each do |object|
+     identity = ObjectSpace._id2ref(object)
+     puts "======================================================================"
+     puts "Class: #{identity.class}"
+     if show_contents == true then
+          puts "Contents:"
+          ap identity
+     end
+     puts "======================================================================"
+   end
 end
+
+
+
+def colours(color=blue)
+  def_colours = {:green => 32, :blue => 34, :grey => 37, :red => 31 }
+  printf "\033[#{def_colours[color]}m";
+  yield
+  printf "\033[0m"
+end
+
