@@ -5,6 +5,7 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "plugins/git", from:oh-my-zsh
 zplug "zdharma/fast-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-completions"
+zplug "Aloxaf/fzf-tab"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check; then
@@ -105,10 +106,13 @@ defaults write -g com.apple.mouse.scaling  6.0
 alias favpn="osascript -e 'tell application \"Viscosity\" to connect \"Corporate VPN V3.0\"'"
 
 # We don't go to Ravenholm^H^H^H^HSpring
-export DISABLE_SPRING=true
+#export DISABLE_SPRING=true
 
 # Setup AWS
 export AWS_VAULT_KEYCHAIN_NAME=login
+
+# Increase number of open files to appease chromedriver
+ulimit -n 2056
 
 # Prompt (must go last in this file)
 eval "$(starship init zsh)"
