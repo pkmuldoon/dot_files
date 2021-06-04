@@ -27,13 +27,9 @@ call plug#end()
 
 let g:deoplete#enable_at_startup = 1
 
-highlight ws ctermbg=red guibg=red
-match ws /\s\+$/
-autocmd BufWinEnter * match ws /\s\+$/
-
+" Set some defaults.
 set nocompatible
 syntax on
-colorscheme dracula
 filetype on
 filetype indent on
 filetype plugin on
@@ -42,7 +38,20 @@ set cursorline
 set backspace=indent,eol,start
 set modeline
 set splitright
+
+" Theme
+colorscheme dracula
+set t_Co=256 "256 colours
+set background=dark
+set termguicolors
+
+" w!! to sudo write a file
 cmap w!! %!sudo tee > /dev/null %
+
+" highlight problematic whitespace in red
+highlight ws ctermbg=red guibg=red
+match ws /\s\+$/
+autocmd BufWinEnter * match ws /\s\+$/
 
 " Search
 set ignorecase
@@ -52,7 +61,7 @@ set incsearch
 set wildmenu
 set wildmode=longest,list,full
 
-set ruler
+" Layout and tabs
 set autoindent
 set smartindent
 set expandtab
@@ -61,18 +70,15 @@ set tabstop=4
 set shiftwidth=2
 set autoread
 
-
-set t_Co=256 "256 colours
-set background=dark
-set termguicolors
-
 "Open file at same line as when closed
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g'\"" | endif
 
+" Define leader
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 
+" Setup whichkey
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
@@ -100,26 +106,8 @@ let g:ale_fixers = {
       \}
 let g:ale_fix_on_save = 1
 
-function! LinterStatus() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-
-  return l:counts.total == 0 ? '✨ all good ✨' : printf(
-        \   '😞 %dW %dE',
-        \   all_non_errors,
-        \   all_errors
-        \)
-endfunction
-
-set statusline=
-set statusline+=%m
-set statusline+=\ %f
-set statusline+=%=
-set statusline+=\ %{LinterStatus()}
-
-inoremap <silent><expr> <TAB>
+" Use TAB to complete
+noremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ deoplete#mappings#manual_complete()
