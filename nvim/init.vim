@@ -1,9 +1,12 @@
-" auto-install vim-plug                                                                                                                
-if empty(glob('~/.config/nvim/autoload/plug.vim'))                                                                                    
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \                                                                  
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim                                                             
-  autocmd VimEnter * PlugInstall                                                                                                      
-endif                                                                                                                                 
+" auto-install vim-plug
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
+" No trailing whitespace
+autocmd BufWritePre * %s/\s\+$//e
 
 call plug#begin(stdpath('data') . '/plugged')
   Plug 'junegunn/vim-easy-align'
@@ -19,15 +22,53 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  Plug 'mg979/vim-visual-multi'
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
-set nocompatible 
-syntax on 
+
+highlight ws ctermbg=red guibg=red
+match ws /\s\+$/
+autocmd BufWinEnter * match ws /\s\+$/
+
+set nocompatible
+syntax on
 colorscheme dracula
 filetype on
 filetype indent on
 filetype plugin on
+set hidden
+set cursorline
+set backspace=indent,eol,start
+set modeline
+set splitright
+cmap w!! %!sudo tee > /dev/null %
+
+" Search
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set wildmenu
+set wildmode=longest,list,full
+
+set ruler
+set autoindent
+set smartindent
+set expandtab
+set smarttab
+set tabstop=4
+set shiftwidth=2
+set autoread
+
+
+set t_Co=256 "256 colours
+set background=dark
+set termguicolors
+
+"Open file at same line as when closed
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
 
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
@@ -94,14 +135,5 @@ nnoremap <silent> <Leader>f :Rg<CR>
 nnoremap <silent> <Leader>h :Helptags<CR>
 nnoremap <silent> <Leader>b :BTags<CR>
 
-set number
-set ruler
-set autoindent
-set smartindent
-set expandtab
-set smarttab
-set tabstop=4
-set shiftwidth=2
-set autoread
 let g:airline_powerline_fonts=1
 
