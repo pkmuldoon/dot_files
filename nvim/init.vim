@@ -1,11 +1,11 @@
-" auto-install vim-plug
+"auto-install vim-plug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
-" No trailing whitespace
+"No trailing whitespace
 autocmd BufWritePre * %s/\s\+$//e
 
 call plug#begin(stdpath('data') . '/plugged')
@@ -27,7 +27,10 @@ call plug#end()
 
 let g:deoplete#enable_at_startup = 1
 
-" Set some defaults.
+"Cursor Settings
+set guicursor=n-v-c:block-blinkon0,i-ci-ve:block-blinkwait100-blinkoff50-blinkon50,r-cr:hor20,o:hor50
+
+"Set some defaults.
 set nocompatible
 syntax on
 filetype on
@@ -39,21 +42,21 @@ set backspace=indent,eol,start
 set modeline
 set splitright
 
-" Theme
+"Theme
 colorscheme dracula
 set t_Co=256 "256 colours
 set background=dark
 set termguicolors
 
-" w!! to sudo write a file
+"w!! to sudo write a file
 cmap w!! %!sudo tee > /dev/null %
 
-" highlight problematic whitespace in red
+"Highlight problematic whitespace in red
 highlight ws ctermbg=red guibg=red
 match ws /\s\+$/
 autocmd BufWinEnter * match ws /\s\+$/
 
-" Search
+"Search
 set ignorecase
 set smartcase
 set hlsearch
@@ -61,7 +64,7 @@ set incsearch
 set wildmenu
 set wildmode=longest,list,full
 
-" Layout and tabs
+"Layout and tabs
 set autoindent
 set smartindent
 set expandtab
@@ -74,15 +77,15 @@ set autoread
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g'\"" | endif
 
-" Define leader
+"Define leader
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 
-" Setup whichkey
+"Setup whichkey
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
-" Buffer shortcuts
+"Buffer shortcuts
 noremap <leader>1 1gt
 noremap <leader>2 2gt
 noremap <leader>3 3gt
@@ -94,7 +97,7 @@ noremap <leader>8 8gt
 noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
-" Ale configury
+"Ale configury
 let g:ale_linters = {
       \   'ruby': ['standardrb', 'rubocop'],
       \   'python': ['flake8', 'pylint'],
@@ -106,7 +109,7 @@ let g:ale_fixers = {
       \}
 let g:ale_fix_on_save = 1
 
-" Use TAB to complete
+"Use TAB to complete
 noremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -116,7 +119,7 @@ function! s:check_back_space() abort "{{{
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
 
-" Some fzf bindings.
+"Some fzf bindings.
 noremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <C-f> :Files<CR>
 nnoremap <silent> <Leader>f :Rg<CR>
