@@ -17,30 +17,21 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'liuchengxu/vim-which-key'
   Plug 'tpope/vim-endwise'
   Plug 'preservim/nerdtree'
-  Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'jacoborus/tender.vim'
   Plug 'dense-analysis/ale'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'mg979/vim-visual-multi'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-lua/lsp-status.nvim'
-  Plug 'nvim-lua/completion-nvim'
-call plug#end()
-
-let g:deoplete#enable_at_startup = 1
-
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'Shougo/deoplete-lsp'
+ call plug#end()
 
 "Mode Settings
 
 set guicursor=n-v-c:block-blinkon0,i-ci-ve:block-blinkwait100-blinkoff50-blinkon50,r-cr:hor20,o:hor50
-"Cursor settings:
-
-"  1 -> blinking block
-"  2 -> solid block
-"  3 -> blinking underscore
-"  4 -> solid underscore
-"  5 -> blinking vertical bar
-"  6 -> solid vertical bar
 
 " Set some defaults.
 set nocompatible
@@ -55,10 +46,12 @@ set modeline
 set splitright
 
 " Theme
-colorscheme dracula
 set t_Co=256 "256 colours
 set background=dark
 set termguicolors
+colorscheme tender
+" set airline theme
+let g:airline_theme = 'tender'
 
 " w!! to sudo write a file
 cmap w!! %!sudo tee > /dev/null %
@@ -129,10 +122,23 @@ nnoremap <silent> <Leader>h :Helptags<CR>
 nnoremap <silent> <Leader>b :BTags<CR>
 
 let g:airline_powerline_fonts=1
+let g:deoplete#enable_at_startup = 1
 
 lua << EOF
 require'lspconfig'.solargraph.setup{}
-require'lspconfig'.solargraph.setup{on_attach=require'completion'.on_attach}
+require'nvim-treesitter.configs'.setup{
+  ensure_installed = {"ruby", "javascript", "python", "json", "css", "typescript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = {}, -- List of parsers to ignore installing
+  highlight = {
+    enable = true
+  },
+  incremental_selection = {
+    enable = true
+  },
+  highlight = {
+    enable = true
+  },
+}
 EOF
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
