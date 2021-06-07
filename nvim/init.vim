@@ -12,25 +12,32 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'junegunn/vim-easy-align'
   Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-rails'
-  Plug 'junegunn/fzf', {'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
   Plug 'liuchengxu/vim-which-key'
   Plug 'tpope/vim-endwise'
-  Plug 'preservim/nerdtree'
   Plug 'jacoborus/tender.vim'
   Plug 'dense-analysis/ale'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
-  Plug 'mg979/vim-visual-multi'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-lua/lsp-status.nvim'
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'Shougo/deoplete-lsp'
- call plug#end()
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzy-native.nvim'
+  Plug 'sudormrfbin/cheatsheet.nvim'
+  Plug 'RishabhRD/popfix'
+  Plug 'RishabhRD/nvim-lsputils'
+  Plug 'nvim-lua/completion-nvim'
+  Plug 'nvim-treesitter/completion-treesitter'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'lewis6991/spellsitter.nvim'
+  Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
+  Plug 'ray-x/navigator.lua'
+  Plug 'nvim-treesitter/nvim-treesitter-refactor' " this provides "go to def" etc
+call plug#end()
 
 "Mode Settings
-
 set guicursor=n-v-c:block-blinkon0,i-ci-ve:block-blinkwait100-blinkoff50-blinkon50,r-cr:hor20,o:hor50
 
 " Set some defaults.
@@ -44,7 +51,7 @@ set cursorline
 set backspace=indent,eol,start
 set modeline
 set splitright
-
+set number
 " Theme
 set t_Co=256 "256 colours
 set background=dark
@@ -114,18 +121,117 @@ let g:ale_fixers = {
       \}
 let g:ale_fix_on_save = 1
 
-" Some fzf bindings.
-noremap <silent> <Leader>b :Buffers<CR>
-nnoremap <silent> <C-f> :Files<CR>
-nnoremap <silent> <Leader>f :Rg<CR>
-nnoremap <silent> <Leader>h :Helptags<CR>
-nnoremap <silent> <Leader>b :BTags<CR>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>? <cmd>Cheatsheet<cr>
+
 
 let g:airline_powerline_fonts=1
-let g:deoplete#enable_at_startup = 1
+
+" Configure the completion chains
+let g:completion_chain_complete_list = {
+			\'default' : {
+			\	'default' : [
+			\		{'complete_items' : ['ts', 'lsp', 'snippet']},
+			\		{'mode' : 'file'}
+			\	],
+			\	'comment' : [],
+			\	'string' : []
+			\	},
+			\'vim' : [
+			\	{'complete_items': ['snippet']},
+			\	{'mode' : 'cmd'}
+			\	],
+			\'c' : [
+			\	{'complete_items': ['ts']}
+			\	],
+			\'python' : [
+			\	{'complete_items': ['ts']}
+			\	],
+			\'lua' : [
+			\	{'complete_items': ['ts']}
+			\	],
+            \'ruby': [
+            \    {'complete_items': ['ts', 'lsp']}
+            \   ],
+			\}
+
+" Use completion-nvim in every buffer
+autocmd BufEnter * lua require'completion'.on_attach()
+autocmd BufRead,BufNewFile *.md setlocal spell
+setlocal spell spelllang=en_gb
+nnoremap <silent> <F11> :set spell!<cr>
+inoremap <silent> <F11> <C-O>:set spell!<cr>
 
 lua << EOF
-require'lspconfig'.solargraph.setup{}
+
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { "solargraph", "pyright", "rust_analyzer", "tsserver" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
+
+require'nvim-web-devicons'.setup {
+ -- your personnal icons can go here (to override)
+ -- DevIcon will be appended to `name`
+ override = {
+  zsh = {
+    icon = "",
+    color = "#428850",
+    name = "Zsh"
+  }
+ };
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+}
+
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true
+  },
+}
+
+require('spellsitter').setup()
 require'nvim-treesitter.configs'.setup{
   ensure_installed = {"ruby", "javascript", "python", "json", "css", "typescript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = {}, -- List of parsers to ignore installing
@@ -139,6 +245,18 @@ require'nvim-treesitter.configs'.setup{
     enable = true
   },
 }
+require'navigator'.setup()
+
+
+require('telescope').setup {
+  extensions = {
+    fzy_native = {
+      override_generic_sorter = true,
+      override_file_sorter = true,
+    }
+  }
+}
+require('telescope').load_extension('fzy_native')
 EOF
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
