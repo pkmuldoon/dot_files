@@ -39,7 +39,7 @@ call plug#begin(stdpath('data') . '/plugged')
 
   " Telescope and utilites
   Plug 'nvim-telescope/telescope.nvim'
-  Plug 'nvim-telescope/telescope-fzy-native.nvim'
+  Plug 'nvim-telescope/telescope-fzy-native.nvim', { 'do': 'make' }
 
   " LSP
   Plug 'nvim-lua/lsp-status.nvim'
@@ -145,13 +145,12 @@ nnoremap <C-H> <C-W><C-H>
 
 " Ale configury
 let g:ale_linters = {
-      \   'ruby': ['standardrb', 'rubocop'],
+      \   'ruby': ['rubocop', 'rails_best_practivces', 'ruby'],
       \   'python': ['flake8', 'pylint'],
       \   'javascript': ['eslint'],
       \}
-
 let g:ale_fixers = {
-      \    'ruby': ['standardrb'],
+      \    'ruby': ['remove_trailing_lines', 'rubocop', 'trim_whitespace'],
       \}
 let g:ale_fix_on_save = 1
 
@@ -193,7 +192,7 @@ let g:completion_chain_complete_list = {
 			\	{'complete_items': ['ts']}
 			\	],
             \'ruby': [
-            \    {'complete_items': ['ts', 'lsp']}
+            \    {'complete_items': ['ts', 'tags', 'lsp']}
             \   ],
 			\}
 
@@ -201,6 +200,7 @@ let g:completion_chain_complete_list = {
 autocmd BufEnter * lua require'completion'.on_attach()
 autocmd BufRead,BufNewFile *.md setlocal spell
 setlocal spell spelllang=en_gb
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 nnoremap <silent> <F11> :set spell!<cr>
 inoremap <silent> <F11> <C-O>:set spell!<cr>
 
