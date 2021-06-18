@@ -9,33 +9,54 @@ endif
 autocmd BufWritePre * %s/\s\+$//e
 
 call plug#begin(stdpath('data') . '/plugged')
-  Plug 'junegunn/vim-easy-align'
+  " Ruby stuff
   Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-rails'
-  Plug 'liuchengxu/vim-which-key'
   Plug 'tpope/vim-endwise'
-  Plug 'jacoborus/tender.vim'
   Plug 'dense-analysis/ale'
+
+  " Help to navigate
+  Plug 'liuchengxu/vim-which-key'
+  Plug 'sudormrfbin/cheatsheet.nvim'
+
+  " Theme
+  Plug 'jacoborus/tender.vim'
+  Plug 'kyazdani42/nvim-web-devicons'
+
+  " Status line
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+
+  " Use Treesitter to build source and enable some utilities.
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-lua/lsp-status.nvim'
+  Plug 'nvim-treesitter/completion-treesitter'
+  Plug 'lewis6991/spellsitter.nvim'
+  Plug 'nvim-treesitter/nvim-treesitter-refactor' " this provides "go to def" etc
+
+  " General utilities and libs
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
+
+  " Telescope and utilites
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  Plug 'sudormrfbin/cheatsheet.nvim'
-  Plug 'RishabhRD/popfix'
+
+  " LSP
+  Plug 'nvim-lua/lsp-status.nvim'
   Plug 'RishabhRD/nvim-lsputils'
+  Plug 'RishabhRD/popfix'
+  Plug 'neovim/nvim-lspconfig'
+
+  " Completion
   Plug 'nvim-lua/completion-nvim'
   Plug 'nvim-treesitter/completion-treesitter'
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'lewis6991/spellsitter.nvim'
-  Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
-  Plug 'ray-x/navigator.lua'
-  Plug 'nvim-treesitter/nvim-treesitter-refactor' " this provides "go to def" etc
-call plug#end()
+  Plug 'kristijanhusak/completion-tags'
+
+  " Search
+  Plug 'jremmen/vim-ripgrep'
+
+  Plug 'ap/vim-buftabline'
+ call plug#end()
 
 "Mode Settings
 set guicursor=n-v-c:block-blinkon0,i-ci-ve:block-blinkwait100-blinkoff50-blinkon50,r-cr:hor20,o:hor50
@@ -46,19 +67,23 @@ syntax on
 filetype on
 filetype indent on
 filetype plugin on
+
 set hidden
 set cursorline
 set backspace=indent,eol,start
 set modeline
 set splitright
 set number
+
 " Theme
 set t_Co=256 "256 colours
 set background=dark
 set termguicolors
 colorscheme tender
+
 " set airline theme
 let g:airline_theme = 'tender'
+let g:airline_powerline_fonts=1
 
 " w!! to sudo write a file
 cmap w!! %!sudo tee > /dev/null %
@@ -85,7 +110,7 @@ set tabstop=4
 set shiftwidth=2
 set autoread
 
-"Open file at same line as when closed
+" Open file at same line as when closed
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g'\"" | endif
 
@@ -109,6 +134,15 @@ noremap <leader>8 8gt
 noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
+nnoremap <C-N> :bnext<CR>
+nnoremap <C-P> :bprev<CR>
+
+" Split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " Ale configury
 let g:ale_linters = {
       \   'ruby': ['standardrb', 'rubocop'],
@@ -121,6 +155,7 @@ let g:ale_fixers = {
       \}
 let g:ale_fix_on_save = 1
 
+" Telescope shortcuts
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -128,9 +163,12 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>? <cmd>Cheatsheet<cr>
 
-
-let g:airline_powerline_fonts=1
-
+nnoremap <leader>Cp <cmd>Telescope loclist<cr>
+nnoremap <leader>Cs <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>Ct <cmd>Telescope current_buffer_tags<cr>
+nnoremap <leader>Clt <cmd>Telescope tag_stack<cr>
+nnoremap <leader>Cf <cmd>Telescope file_browser<cr>
+"
 " Configure the completion chains
 let g:completion_chain_complete_list = {
 			\'default' : {
@@ -166,42 +204,28 @@ setlocal spell spelllang=en_gb
 nnoremap <silent> <F11> :set spell!<cr>
 inoremap <silent> <F11> <C-O>:set spell!<cr>
 
+
+nnoremap <silent> <leader>Dd <cmd>lua vim.lsp.buf.declaration()<cr>
+nnoremap <silent> <leader>De <cmd>lua vim.lsp.buf.definition()<cr>
+nnoremap <silent> <leader>Hh <cmd>lua vim.lsp.buf.hover()<cr>
+nnoremap <silent> <leader>Di <cmd>lua vim.lsp.buf.implementation()<cr>
+nnoremap <silent> <leader>Sh <cmd>lua vim.lsp.buf.signature_help()<cr>
+nnoremap <silent> <leader>Wa <cmd>lua vim.lsp.buf.add_workspace_folder()<cr>
+nnoremap <silent> <leader>Wr <cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>
+nnoremap <silent> <leader>Wl <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
+nnoremap <silent> <leader>Dt <cmd>lua vim.lsp.buf.type_definition()<cr>
+nnoremap <silent> <leader>Dr <cmd>lua vim.lsp.buf.rename()<cr>
+nnoremap <silent> <leader>Ca <cmd>lua vim.lsp.buf.code_action()<cr>
+nnoremap <silent> <leader>Dt <cmd>lua vim.lsp.buf.references()<cr>
+nnoremap <silent> <leader>Dl <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
+nnoremap <silent> <leader>Dgp <cmd>lua vim.lsp.diagnostic.goto_prev()<cr>
+nnoremap <silent> <leader>Dgn <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
+nnoremap <silent> <leader>Ds <cmd>lua vim.lsp.diagnostic.set_loclist()<cr>
+nnoremap <silent> <leader>Fo <cmd>lua vim.lsp.buf.formatting()<cr>
+
+
 lua << EOF
-
 local nvim_lsp = require('lspconfig')
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-
-end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -225,12 +249,6 @@ require'nvim-web-devicons'.setup {
  default = true;
 }
 
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true
-  },
-}
-
 require('spellsitter').setup()
 require'nvim-treesitter.configs'.setup{
   ensure_installed = {"ruby", "javascript", "python", "json", "css", "typescript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -241,11 +259,10 @@ require'nvim-treesitter.configs'.setup{
   incremental_selection = {
     enable = true
   },
-  highlight = {
+  textobjects = {
     enable = true
   },
 }
-require'navigator'.setup()
 
 
 require('telescope').setup {
@@ -268,3 +285,5 @@ set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
+set signcolumn=number
+
