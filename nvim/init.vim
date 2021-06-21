@@ -5,16 +5,13 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall
 endif
 
-" No trailing whitespace
-autocmd BufWritePre * %s/\s\+$//e
-
 call plug#begin(stdpath('data') . '/plugged')
   " Ruby stuff
   Plug 'vim-ruby/vim-ruby'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-endwise'
   Plug 'dense-analysis/ale'
-
+  Plug 'ntpeters/vim-better-whitespace'
   " Help to navigate
   Plug 'liuchengxu/vim-which-key'
   Plug 'sudormrfbin/cheatsheet.nvim'
@@ -36,7 +33,7 @@ call plug#begin(stdpath('data') . '/plugged')
   " General utilities and libs
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
-
+  Plug 'Yggdroot/indentLine'
   " Telescope and utilites
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim', { 'do': 'make' }
@@ -85,16 +82,7 @@ colorscheme tender
 let g:airline_theme = 'tender'
 let g:airline_powerline_fonts=1
 
-" w!! to sudo write a file
-cmap w!! %!sudo tee > /dev/null %
-
-" highlight problematic whitespace in red
-highlight ws ctermbg=red guibg=red
-match ws /\s\+$/
-autocmd BufWinEnter * match ws /\s\+$/
-
 " Search
-set ignorecase
 set smartcase
 set hlsearch
 set incsearch
@@ -119,7 +107,7 @@ let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 
 " Setup whichkey
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
 " Buffer shortcuts
@@ -132,7 +120,6 @@ noremap <leader>6 6gt
 noremap <leader>7 7gt
 noremap <leader>8 8gt
 noremap <leader>9 9gt
-noremap <leader>0 :tablast<cr>
 
 nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
