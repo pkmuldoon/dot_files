@@ -211,22 +211,22 @@ command! Root call s:root()
 function! s:shuffle() range
 ruby << RB
   first, last = %w[a:firstline a:lastline].map { |e| VIM::evaluate(e).to_i }
-  (first..last).map { |l| $curbuf[l] }.shuffle.each_with_index do |line, i|
+  puts "first: #{first}, last: #{last}"
+  (first..last).map { |l| $curbuf[l]; puts "l #{l}" }.shuffle.each_with_index do |line, i|
     $curbuf[first + i] = line
   end
 RB
 endfunction
 command! -range Shuffle <line1>,<line2>call s:shuffle()
 
-" ----------------------------------------------------------------------------
-" HL | Find out syntax group
-" ----------------------------------------------------------------------------
-function! s:hl()
-  " echo synIDattr(synID(line('.'), col('.'), 0), 'name')
-  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
-command! HL call <SID>hl()
-
+com! DiffSaved call s:DiffWithSaved()
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
