@@ -16,12 +16,15 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'tpope/vim-bundler'
 
-  " Editor Configi
+  " Editor Config
   Plug 'sgur/vim-editorconfig'
 
   " Help to navigate
   Plug 'liuchengxu/vim-which-key'
   Plug 'sudormrfbin/cheatsheet.nvim'
+
+  " Git
+  Plug 'tpope/vim-fugitive'
 
   " Theme
   Plug 'morhetz/gruvbox'
@@ -178,65 +181,51 @@ nnoremap <leader>Clt <cmd>Telescope tag_stack<cr>
 nnoremap <leader>Cf <cmd>Telescope file_browser<cr>
 "
 " Configure the completion chains
-let g:completion_chain_complete_list = {
-			\'default' : {
-			\	'default' : [
-			\		{'complete_items' : ['ts', 'lsp', 'snippet']},
-			\		{'mode' : 'file'}
-			\	],
-			\	'comment' : [],
-			\	'string' : []
-			\	},
-			\'vim' : [
-			\	{'complete_items': ['snippet']},
-			\	{'mode' : 'cmd'}
-			\	],
-			\'c' : [
-			\	{'complete_items': ['ts']}
-			\	],
-			\'python' : [
-			\	{'complete_items': ['ts']}
-			\	],
-			\'lua' : [
-			\	{'complete_items': ['ts']}
-			\	],
-            \'ruby': [
-            \    {'complete_items': ['ts', 'tags', 'lsp']}
-            \   ],
-			\}
 
-" Use completion-nvim in every buffer
-" autocmd BufEnter * lua require'completion'.on_attach()
 autocmd BufRead,BufNewFile *.md setlocal spell
 set spelllang=en_gb
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 nnoremap <silent> <F4> :set spell!<cr>
 inoremap <silent> <F4> <C-O>:set spell!<cr>
 
-
-nnoremap <silent> <leader>Dd <cmd>lua vim.lsp.buf.declaration()<cr>
-nnoremap <silent> <leader>De <cmd>lua vim.lsp.buf.definition()<cr>
-nnoremap <silent> <leader>Hh <cmd>lua vim.lsp.buf.hover()<cr>
-nnoremap <silent> <leader>Di <cmd>lua vim.lsp.buf.implementation()<cr>
-nnoremap <silent> <leader>Sh <cmd>lua vim.lsp.buf.signature_help()<cr>
-nnoremap <silent> <leader>Wa <cmd>lua vim.lsp.buf.add_workspace_folder()<cr>
-nnoremap <silent> <leader>Wr <cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>
-nnoremap <silent> <leader>Wl <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>
-nnoremap <silent> <leader>Dt <cmd>lua vim.lsp.buf.type_definition()<cr>
-nnoremap <silent> <leader>Dr <cmd>lua vim.lsp.buf.rename()<cr>
-nnoremap <silent> <leader>Ca <cmd>lua vim.lsp.buf.code_action()<cr>
-nnoremap <silent> <leader>Dt <cmd>lua vim.lsp.buf.references()<cr>
-nnoremap <silent> <leader>Dl <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
-nnoremap <silent> <leader>Dgp <cmd>lua vim.lsp.diagnostic.goto_prev()<cr>
-nnoremap <silent> <leader>Dgn <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
-nnoremap <silent> <leader>Ds <cmd>lua vim.lsp.diagnostic.set_loclist()<cr>
-nnoremap <silent> <leader>Fo <cmd>lua vim.lsp.buf.formatting()<cr>
-
-
 " Start NERDTree when Vim starts with a directory argument.
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+
+" Commands
+command! Chomp %s/\s\+$// | normal! ``
+command! -nargs=1 Count execute printf('%%s/%s//gn', escape(<q-args>, '/')) | normal! ``
+
+function! s:root()
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  if v:shell_error
+    echo 'Not in git repo'
+  else
+    execute 'lcd' root
+    echo 'Changed directory to: '.root
+  endif
+endfunction
+command! Root call s:root()
+
+function! s:shuffle() range
+ruby << RB
+  first, last = %w[a:firstline a:lastline].map { |e| VIM::evaluate(e).to_i }
+  (first..last).map { |l| $curbuf[l] }.shuffle.each_with_index do |line, i|
+    $curbuf[first + i] = line
+  end
+RB
+endfunction
+command! -range Shuffle <line1>,<line2>call s:shuffle()
+
+" ----------------------------------------------------------------------------
+" HL | Find out syntax group
+" ----------------------------------------------------------------------------
+function! s:hl()
+  " echo synIDattr(synID(line('.'), col('.'), 0), 'name')
+  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
+endfunction
+command! HL call <SID>hl()
 
 lua << EOF
 local nvim_lsp = require('lspconfig')
