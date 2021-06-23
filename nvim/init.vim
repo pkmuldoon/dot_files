@@ -182,9 +182,8 @@ nnoremap <leader>Cf <cmd>Telescope file_browser<cr>
 "
 " Configure the completion chains
 
-autocmd BufRead,BufNewFile *.md setlocal spell
 set spelllang=en_gb
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+set spell
 nnoremap <silent> <F4> :set spell!<cr>
 inoremap <silent> <F4> <C-O>:set spell!<cr>
 
@@ -211,7 +210,6 @@ command! Root call s:root()
 function! s:shuffle() range
 ruby << RB
   first, last = %w[a:firstline a:lastline].map { |e| VIM::evaluate(e).to_i }
-  puts "first: #{first}, last: #{last}"
   (first..last).map { |l| $curbuf[l]; puts "l #{l}" }.shuffle.each_with_index do |line, i|
     $curbuf[first + i] = line
   end
@@ -227,6 +225,7 @@ function! s:DiffWithSaved()
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
+
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
@@ -252,7 +251,10 @@ require'nvim-web-devicons'.setup {
  default = true;
 }
 
-require('spellsitter').setup()
+require('spellsitter').setup {
+  hl = 'SpellBad',
+  captures = {'comment'},  -- set to {} to spellcheck everything
+}
 require'nvim-treesitter.configs'.setup{
   ensure_installed = {"ruby", "javascript", "python", "json", "css", "typescript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = {}, -- List of parsers to ignore installing
