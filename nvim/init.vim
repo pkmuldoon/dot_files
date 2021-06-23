@@ -5,6 +5,8 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall
 endif
 
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
 call plug#begin(stdpath('data') . '/plugged')
   " Ruby stuff
   Plug 'vim-ruby/vim-ruby'
@@ -12,12 +14,17 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'tpope/vim-endwise'
   Plug 'dense-analysis/ale'
   Plug 'ntpeters/vim-better-whitespace'
+  Plug 'tpope/vim-bundler'
+
+  " Editor Configi
+  Plug 'sgur/vim-editorconfig'
+
   " Help to navigate
   Plug 'liuchengxu/vim-which-key'
   Plug 'sudormrfbin/cheatsheet.nvim'
 
   " Theme
-  Plug 'jacoborus/tender.vim'
+  Plug 'morhetz/gruvbox'
   Plug 'kyazdani42/nvim-web-devicons'
 
   " Status line
@@ -26,15 +33,14 @@ call plug#begin(stdpath('data') . '/plugged')
 
   " Use Treesitter to build source and enable some utilities.
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/completion-treesitter'
   Plug 'lewis6991/spellsitter.nvim'
   Plug 'nvim-treesitter/nvim-treesitter-refactor' " this provides "go to def" etc
 
   " General utilities and libs
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'Yggdroot/indentLine'
-  " Telescope and utilites
+
+  " Telescope and utilities
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim', { 'do': 'make' }
 
@@ -45,25 +51,36 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'neovim/nvim-lspconfig'
 
   " Completion
-  Plug 'nvim-lua/completion-nvim'
-  Plug 'nvim-treesitter/completion-treesitter'
-  Plug 'kristijanhusak/completion-tags'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/deoplete-lsp'
+  Plug 'deoplete-plugins/deoplete-tag'
+
+  " NERDtree
+  Plug 'preservim/nerdtree'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
   " Search
   Plug 'jremmen/vim-ripgrep'
 
+  Plug 'psliwka/vim-smoothie'
   Plug 'ap/vim-buftabline'
- call plug#end()
+  Plug 'mhinz/vim-startify'
+call plug#end()
 
 "Mode Settings
 set guicursor=n-v-c:block-blinkon0,i-ci-ve:block-blinkwait100-blinkoff50-blinkon50,r-cr:hor20,o:hor50
 
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#lsp#use_icons_for_candidates = 1
 " Set some defaults.
 set nocompatible
 syntax on
 filetype on
 filetype indent on
 filetype plugin on
+
+let g:indent_guides_enable_on_vim_startup = 1
 
 set hidden
 set cursorline
@@ -76,10 +93,13 @@ set number
 set t_Co=256 "256 colours
 set background=dark
 set termguicolors
-colorscheme tender
+let g:gruvbox_contrast_dark="soft"
+let g:gruvbox_improved_strings=1
+let g:gruvbox_improved_warnings=1
+colorscheme gruvbox
 
 " set airline theme
-let g:airline_theme = 'tender'
+let g:airline_theme = 'gruvbox'
 let g:airline_powerline_fonts=1
 
 " Search
@@ -140,6 +160,8 @@ let g:ale_fixers = {
       \    'ruby': ['remove_trailing_lines', 'rubocop', 'trim_whitespace'],
       \}
 let g:ale_fix_on_save = 1
+let g:ale_ruby_rubocop_auto_correct_all = 1
+let g:ale_lint_delay = 1000
 
 " Telescope shortcuts
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -184,12 +206,12 @@ let g:completion_chain_complete_list = {
 			\}
 
 " Use completion-nvim in every buffer
-autocmd BufEnter * lua require'completion'.on_attach()
+" autocmd BufEnter * lua require'completion'.on_attach()
 autocmd BufRead,BufNewFile *.md setlocal spell
-setlocal spell spelllang=en_gb
+set spelllang=en_gb
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-nnoremap <silent> <F11> :set spell!<cr>
-inoremap <silent> <F11> <C-O>:set spell!<cr>
+nnoremap <silent> <F4> :set spell!<cr>
+inoremap <silent> <F4> <C-O>:set spell!<cr>
 
 
 nnoremap <silent> <leader>Dd <cmd>lua vim.lsp.buf.declaration()<cr>
@@ -211,18 +233,23 @@ nnoremap <silent> <leader>Ds <cmd>lua vim.lsp.diagnostic.set_loclist()<cr>
 nnoremap <silent> <leader>Fo <cmd>lua vim.lsp.buf.formatting()<cr>
 
 
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
+-- map buffer local key bindings when the language server attaches
 local servers = { "solargraph", "pyright", "rust_analyzer", "tsserver" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 
 require'nvim-web-devicons'.setup {
- -- your personnal icons can go here (to override)
+ -- your personal icons can go here (to override)
  -- DevIcon will be appended to `name`
  override = {
   zsh = {
@@ -232,7 +259,7 @@ require'nvim-web-devicons'.setup {
   }
  };
  -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
+ -- will get overridden by `get_icons` option
  default = true;
 }
 
