@@ -25,6 +25,7 @@ call plug#begin(stdpath('data') . '/plugged')
 
   " Git
   Plug 'tpope/vim-fugitive'
+  Plug 'mhinz/vim-signify'
 
   " Theme
   Plug 'morhetz/gruvbox'
@@ -82,7 +83,6 @@ filetype on
 filetype indent on
 filetype plugin on
 
-let g:indent_guides_enable_on_vim_startup = 1
 
 set hidden
 set cursorline
@@ -90,6 +90,7 @@ set backspace=indent,eol,start
 set modeline
 set splitright
 set number
+set updatetime=100
 
 " Theme
 set t_Co=256 "256 colours
