@@ -36,7 +36,6 @@ call plug#begin(stdpath('data') . '/plugged')
 
   " Use Treesitter to build source and enable some utilities.
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'lewis6991/spellsitter.nvim'
   Plug 'nvim-treesitter/nvim-treesitter-refactor' " this provides "go to def" etc
 
   " General utilities and libs
@@ -251,10 +250,6 @@ require'nvim-web-devicons'.setup {
  default = true;
 }
 
-require('spellsitter').setup {
-  hl = 'SpellBad',
-  captures = {'comment'},  -- set to {} to spellcheck everything
-}
 require'nvim-treesitter.configs'.setup{
   ensure_installed = {"ruby", "javascript", "python", "json", "css", "typescript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = {}, -- List of parsers to ignore installing
