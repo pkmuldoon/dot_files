@@ -77,6 +77,9 @@ call plug#begin(stdpath('data') . '/plugged')
 
   " Startup screen
   Plug 'mhinz/vim-startify'
+
+  " Tmux navigation
+  Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Mode Settings
