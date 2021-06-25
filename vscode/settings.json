@@ -213,11 +213,12 @@
   "[ruby]": {
     "editor.defaultFormatter": "misogi.ruby-rubocop"
   },
-  "editor.multiCursorModifier": "ctrlCmd",
   "errorLens.addAnnotationTextPrefixes": true,
   "errorLens.addNumberOfDiagnostics": true,
   "scm.alwaysShowActions": true,
   "scm.alwaysShowProviders": true,
   "workbench.tree.renderIndentGuides": "always",
+  "tabnine.experimentalAutoImports": true,
+  "editor.multiCursorModifier": "ctrlCmd",
 }
 

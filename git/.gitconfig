@@ -35,3 +35,8 @@ excludesfile = ~/.gitignore
 [difftool "kdiff3"]
 	path = /usr/local/Caskroom/kdiff3/0.9.98/kdiff3.wrapper.sh
 	trustExitCode = false
+[gui]
+	fontui = -family Hack -size 24 -weight normal -slant roman -underline 0 -overstrike 0
+  fontdiff = -family Hack -size 24 -weight normal -slant roman -underline 0 -overstrike 0
+[url "git@github.com:"]
+	insteadOf = https://github.com/
