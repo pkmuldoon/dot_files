@@ -1,7 +1,6 @@
 " auto-install vim-plug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
@@ -9,12 +8,12 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 call plug#begin(stdpath('data') . '/plugged')
   " Ruby stuff
-  Plug 'vim-ruby/vim-ruby'
-  Plug 'tpope/vim-rails'
+  Plug 'vim-ruby/vim-ruby' | Plug 'tpope/vim-rails' |  Plug 'tpope/vim-bundler', { 'for': 'ruby' }
+
+  " All languages
   Plug 'tpope/vim-endwise'
   Plug 'dense-analysis/ale'
   Plug 'ntpeters/vim-better-whitespace'
-  Plug 'tpope/vim-bundler'
 
   " Editor Config
   Plug 'sgur/vim-editorconfig'
@@ -66,24 +65,33 @@ call plug#begin(stdpath('data') . '/plugged')
   " Search
   Plug 'jremmen/vim-ripgrep'
 
+  " Neoterm
+  Plug 'kassio/neoterm'
+
+  " Smooth scrolling
+
   Plug 'psliwka/vim-smoothie'
+
+  " Use the tabline to show buffer names
   Plug 'ap/vim-buftabline'
+
+  " Startup screen
   Plug 'mhinz/vim-startify'
 call plug#end()
 
-"Mode Settings
+" Mode Settings
 set guicursor=n-v-c:block-blinkon0,i-ci-ve:block-blinkwait100-blinkoff50-blinkon50,r-cr:hor20,o:hor50
 
+" Deoplete options
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#lsp#use_icons_for_candidates = 1
+
 " Set some defaults.
 set nocompatible
 syntax on
 filetype on
 filetype indent on
 filetype plugin on
-
-
 set hidden
 set cursorline
 set backspace=indent,eol,start
@@ -143,7 +151,6 @@ noremap <leader>6 6gt
 noremap <leader>7 7gt
 noremap <leader>8 8gt
 noremap <leader>9 9gt
-
 nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
 
@@ -152,6 +159,12 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Better Whitespace
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+let g:strip_whitespace_confirm=0
+let g:strip_only_modified_lines=1
 
 " Ale configury
 let g:ale_linters = {
@@ -179,9 +192,8 @@ nnoremap <leader>Cs <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>Ct <cmd>Telescope current_buffer_tags<cr>
 nnoremap <leader>Clt <cmd>Telescope tag_stack<cr>
 nnoremap <leader>Cf <cmd>Telescope file_browser<cr>
-"
-" Configure the completion chains
 
+" Seplling
 set spelllang=en_gb
 set spell
 nnoremap <silent> <F4> :set spell!<cr>
@@ -192,10 +204,24 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+set signcolumn=number
+
 " Commands
+
+" chomp whitespace from a line
 command! Chomp %s/\s\+$// | normal! ``
 command! -nargs=1 Count execute printf('%%s/%s//gn', escape(<q-args>, '/')) | normal! ``
 
+" Find git root
 function! s:root()
   let root = systemlist('git rev-parse --show-toplevel')[0]
   if v:shell_error
@@ -225,6 +251,9 @@ function! s:DiffWithSaved()
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
+
+
+" LUA config
 
 lua << EOF
 local nvim_lsp = require('lspconfig')
@@ -265,7 +294,6 @@ require'nvim-treesitter.configs'.setup{
   },
 }
 
-
 require('telescope').setup {
   extensions = {
     fzy_native = {
@@ -276,15 +304,4 @@ require('telescope').setup {
 }
 require('telescope').load_extension('fzy_native')
 EOF
-
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-" Avoid showing message extra message when using completion
-set shortmess+=c
-set signcolumn=number
 
