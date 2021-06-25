@@ -17,8 +17,8 @@ function reload
   echo "reloading: $config" source $config
 end
 
-#source /usr/local/share/chruby/chruby.fish
-#source /usr/local/share/chruby/auto.fish
+source /usr/local/share/chruby/chruby.fish
+source /usr/local/share/chruby/auto.fish
 
 alias rsp='bundle exec rspec'
 alias rke='bundle exec rails'
