@@ -1,18 +1,24 @@
 {
-  "workbench.colorTheme": "Dracula At Night" ,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairsHorizontal": true,
+
+  "github.copilot.inlineSuggest.enable": true,
+  "workbench.colorTheme": "Gruvbox Material Dark",
   "outline.icons": true,
   "breadcrumbs.icons": true,
   "workbench.preferredDarkColorTheme": "Default Dark+",
 
   // RUBY SETTINGS
-  "rubocop.executePath": "${env:GEM_HOME}/bin/rubocop",
   "ruby.useLanguageServer": true,
   "ruby.format": "rubocop",
-  "ruby.rubocop.configFilePath": "/Users/phillipmuldoon/dev/freeagent/.rubocop.yml",
   "ruby.intellisense": "rubyLocate",
-  "ruby.interpreter.commandPath": "${env:RUBY_ROOT}/bin/ruby",
+  "ruby.interpreter.commandPath": "/Users/phillipmuldoon/.asdf/shims/ruby",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
   // Basic settings: turn linter(s) on
   "ruby.lint": {
+    "ruby": true,
+
     "rubocop": {
       "lint": true, // enable lint cops
       "rails": true // requires rubocop-rails gem for RuboCop >= 0.72.0
@@ -22,14 +28,12 @@
   // Time (ms) to wait after keypress before running enabled linters. Ensures
   // linters are only run when typing has finished and not for every keypress
   "ruby.lintDebounceTime": 500,
-
   // Editor
   "editor.tabSize": 2,
   "editor.lineNumbers": "on",
   "editor.detectIndentation": true,
   "editor.lightbulb.enabled": true,
-  "editor.acceptSuggestionOnEnter": "off",
-  "editor.wordBasedSuggestions": false,
+  "editor.acceptSuggestionOnEnter": "smart",
   "editor.cursorStyle": "block",
   "editor.cursorWidth": 50,
   "editor.cursorBlinking":  "phase",
@@ -64,16 +68,11 @@
     80,
     120
   ],
-
-  // Windows
+"editor.trimAutoWhitespace": true,
   "window.zoomLevel": 2,
-
-  // Workbench
-  "workbench.sideBar.location": "left",
   "workbench.fontAliasing": "antialiased",
   "workbench.enableExperiments": true,
   "workbench.editor.highlightModifiedTabs": true,
-  "workbench.iconTheme": "vscode-great-icons",
   "workbench.activityBar.visible": true,
   "explorer.openEditors.visible": 0,
   "explorer.confirmDragAndDrop": false,
@@ -85,12 +84,11 @@
   "debug.console.fontFamily": "Hack",
   "debug.console.fontSize": 16,
   "debug.inlineValues": true,
-  "debug.enableAllHovers": true,
   "debug.focusWindowOnBreak": true,
 
   // Files
   "files.trimTrailingWhitespace": true,
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "onFocusChange",
 
   // Terminal
   "terminal.integrated.fontFamily": "Hack",
@@ -99,9 +97,8 @@
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.drawBoldTextInBrightColors": true,
   "terminal.integrated.enableBell": false,
-  "terminal.integrated.confirmOnExit": false,
+  "terminal.integrated.confirmOnExit": "never",
   "terminal.integrated.enableFileLinks": true,
-  "terminal.integrated.shell.linux": "/bin/zsh",
 
   // Solargraph
   "search.showLineNumbers": true,
@@ -112,7 +109,7 @@
   "solargraph.definitions": true,
   "solargraph.references": true,
   "solargraph.hover": true,
-  "solargraph.completion": true,
+  "solargraph.completion": false,
   "solargraph.diagnostics": true,
 
   // Gitlens
@@ -133,7 +130,14 @@
   "[javascript]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.language.bracketPairs": [
+        ["[", "]"],
+        ["(", ")"]
+    ],
+    "editor.language.colorizedBracketPairs": [
+        ["[", "]"]
+    ]
   },
   "[json]": {
     "editor.insertSpaces": true,
@@ -205,20 +209,48 @@
     "HUMIO"
 
   ],
-  "sync.autoDownload": true,
-  "sync.autoUpload": true,
-  "sync.gist": "bb59b15f7b87a4d1435bd3399db6ed09",
   "editor.suggestSelection": "first",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "[ruby]": {
-    "editor.defaultFormatter": "misogi.ruby-rubocop"
+    "editor.defaultFormatter": "castwide.solargraph",
+    "editor.language.colorizedBracketPairs": [
+        ["[", "]"],
+        ["(", ")"],
+        ["{", "}"],
+    ]
   },
-  "errorLens.addAnnotationTextPrefixes": true,
-  "errorLens.addNumberOfDiagnostics": true,
+  "editor.autoIndent": "advanced",
+  "editor.gotoLocation.multipleImplementations": "peek",
+  "editor.guides.highlightActiveBracketPair": true,
+  "editor.guides.highlightActiveIndentation": true,
+  "editor.parameterHints.enabled": true,
   "scm.alwaysShowActions": true,
-  "scm.alwaysShowProviders": true,
   "workbench.tree.renderIndentGuides": "always",
   "tabnine.experimentalAutoImports": true,
   "editor.multiCursorModifier": "ctrlCmd",
-}
+  "editor.accessibilitySupport": "off",
+  "workbench.productIconTheme": "fluent-icons",
+  "redhat.telemetry.enabled": false,
+  "ruby.locate": {
+    "exclude": "{**/@(test|spec|tmp|.*),**/@(test|spec|tmp|.*)/**,**/*_spec.rb}",
+    "include": "**/*.rb"
+  },
+  "tabnine.receiveBetaChannelUpdates": true,
+  "ruby.languageServer": {},
+  "peacock.affectAccentBorders": true,
+  "peacock.affectStatusAndTitleBorders": true,
+  "peacock.affectDebuggingStatusBar": true,
+  "peacock.affectTabActiveBorder": true,
+  "[handlebars]": {
 
+    "editor.suggest.insertMode": "replace"
+  },
+  "editor.codeLensFontFamily": "Hack",
+  "editor.guides.bracketPairs": true,
+  "editor.tabCompletion": "on",
+  "diffEditor.codeLens": true,
+  "editor.suggest.localityBonus": true,
+  "editor.suggest.preview": true,
+  "editor.suggest.showStatusBar": true,
+  "editor.inlineSuggest.enabled": true
+}
