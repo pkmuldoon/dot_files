@@ -25,30 +25,32 @@ if defined?(PryByebug) || defined?(PryDebugger)
    Pry.commands.alias_command 'n', 'next' rescue nil
    Pry.commands.alias_command 'f', 'finish' rescue nil
 end
-Pry.commands.alias_command 'bt', 'backtrace' rescue nil
-Pry.commands.alias_command 'frame up', 'up'
-Pry.commands.alias_command 'frame down', 'down'
+if defined?(PryStackExplorer)
+  Pry.commands.alias_command 'bt', 'backtrace' rescue nil
+  Pry.commands.alias_command 'frame up', 'up'
+  Pry.commands.alias_command 'frame down', 'down'
+end
 
 # Some other Aliases
 Pry.commands.alias_command 'r!', 'reload!' rescue nil
 
-
 # Format the prompt
-def formatted_env
-  case Rails.env
-  when 'production'
-    bold_upcased_env = Pry::Helpers::Text.bold(Rails.env.upcase)
-    Pry::Helpers::Text.red(bold_upcased_env)
-  when 'staging'
-    Pry::Helpers::Text.yellow(Rails.env)
-  when 'development'
-    Pry::Helpers::Text.green(Rails.env)
-  else
-    Rails.env
-  end
+if defined?(Rails)
+    case Rails.env
+    when 'production'
+      bold_upcased_env = Pry::Helpers::Text.bold(Rails.env.upcase)
+      Pry::Helpers::Text.red(bold_upcased_env)
+    when 'staging'
+      Pry::Helpers::Text.yellow(Rails.env)
+    when 'development'
+      Pry::Helpers::Text.green(Rails.env)
+    else
+      Rails.env
+    end
 end
 
 def app_name
+
   if Rails.root.present?
     File.basename(Rails.root)
   else
@@ -57,13 +59,13 @@ def app_name
 end
 
 # Change the prompt if  we're in RAILS to a RAILS specific prompt.
-if defined?(Rails)
-  Pry.config.prompt = Pry::Prompt.new(
-    "custom",
-    "FA prompt",
-    [proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }]
-  )
-end
+# if defined?(Rails)
+#  Pry.config.prompt = Pry::Prompt.new(
+#    "custom",
+#    "FA prompt",
+#    [proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }]
+#  )
+#end
 
 # == PLUGINS ===
 # amazing_print gem: great syntax colorized printing
@@ -115,7 +117,7 @@ default_command_set = Pry::CommandSet.new do
         ss = c.split(":")
         colours(:red) { print ss[0] }
         colours(:green) { print ":" + ss[1] }
-        print " " 
+        print " "
         colours(:blue) { puts ss[2] }
       end
     end
@@ -124,14 +126,14 @@ default_command_set = Pry::CommandSet.new do
   # Clear the screen.
   command "clear" do
     system "clear"
-    if ENV["RAILS_ENV"]
+    if defined?(Rails) 
       output.puts "Rails Environment: " + ENV['RAILS_ENV']
     end
   end
 
   # Send SQL over ActiveRecord
   command "sql", "Send sql over ActiveRecord." do |query|
-    if ENV['RAILS_ENV'] || defined?(Rails)
+    if defined?(Rails)
       pp ActiveRecord::Base.connection.select_all(query)
     else
       pp "No rails env defined"
@@ -182,10 +184,10 @@ org_logger_rails = nil
 Pry.hooks.add_hook :before_session, :rails do |output, target, pry|
   if defined?(Rails) && Rails.env
     # output all other log info such as deprecation warnings to the console
-    if Rails.respond_to? :logger=
-      org_logger_rails = Rails.logger
-      Rails.logger = Logger.new STDOUT
-    end
+#    if Rails.respond_to? :logger=
+#      org_logger_rails = Rails.logger
+#      Rails.logger = Logger.new STDOUT
+#    end
 
     # load Rails console commands
     if Rails::VERSION::MAJOR >= 3
@@ -202,8 +204,10 @@ Pry.hooks.add_hook :before_session, :rails do |output, target, pry|
 end
 
 Pry.hooks.add_hook :after_session, :rails do |output, target, pry|
-  ActiveRecord::Base.logger = org_logger_active_record if org_logger_active_record
-  Rails.logger = org_logger_rails if org_logger_rails
+  if defined?(Rails)
+    ActiveRecord::Base.logger = org_logger_active_record if org_logger_active_record
+    Rails.logger = org_logger_rails if org_logger_rails
+  end
 end
 
 # Some monkey patching longggggg methods to short ones.
