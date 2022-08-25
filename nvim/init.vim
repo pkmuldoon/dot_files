@@ -9,11 +9,24 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 call plug#begin(stdpath('data') . '/plugged')
   " Ruby stuff
   Plug 'vim-ruby/vim-ruby' | Plug 'tpope/vim-rails' |  Plug 'tpope/vim-bundler', { 'for': 'ruby' }
+  Plug 'lucapette/vim-ruby-doc'
 
+  " Handlebars
+  Plug 'joukevandermaas/vim-ember-hbs'
+  Plug 'dsawardekar/ember.vim'
+
+  " Javascript
+  Plug 'pangloss/vim-javascript'
+  Plug 'mustache/vim-mustache-handlebars'
   " All languages
   Plug 'tpope/vim-endwise'
   Plug 'dense-analysis/ale'
   Plug 'ntpeters/vim-better-whitespace'
+
+  " FZF
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
   " Editor Config
   Plug 'sgur/vim-editorconfig'
@@ -30,6 +43,9 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'morhetz/gruvbox'
   Plug 'kyazdani42/nvim-web-devicons'
 
+  " FZF Lua
+  Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+
   " Status line
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
@@ -45,22 +61,31 @@ call plug#begin(stdpath('data') . '/plugged')
   " Telescope and utilities
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim', { 'do': 'make' }
+  Plug 'nvim-telescope/telescope-github.nvim'
+  Plug 'LinArcX/telescope-command-palette.nvim'
+  Plug 'fannheyward/telescope-coc.nvim'
 
   " LSP
   Plug 'nvim-lua/lsp-status.nvim'
   Plug 'RishabhRD/nvim-lsputils'
   Plug 'RishabhRD/popfix'
   Plug 'neovim/nvim-lspconfig'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'folke/trouble.nvim'
 
   " Completion
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/deoplete-lsp'
-  Plug 'deoplete-plugins/deoplete-tag'
+  "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  "Plug 'Shougo/deoplete-lsp'
+  "Plug 'deoplete-plugins/deoplete-tag'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+
+  Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+
+  Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 
   " NERDtree
-  Plug 'preservim/nerdtree'
   Plug 'ryanoasis/vim-devicons'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
   " Search
   Plug 'jremmen/vim-ripgrep'
@@ -69,26 +94,41 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'kassio/neoterm'
 
   " Smooth scrolling
-
   Plug 'psliwka/vim-smoothie'
 
   " Use the tabline to show buffer names
   Plug 'ap/vim-buftabline'
 
   " Startup screen
-  Plug 'mhinz/vim-startify'
 
-  " Tmux navigation
+  Plug 'startup-nvim/startup.nvim'
+
+  "Tmux navigation
   Plug 'christoomey/vim-tmux-navigator'
+
+  "Twilight
+  Plug 'folke/twilight.nvim'
+
+  "Ruby Debugging
+  Plug 'thoughtbot/vim-rspec'
+
+  Plug 'p00f/nvim-ts-rainbow'
+  Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'lewis6991/nvim-treesitter-context'
 call plug#end()
+
+let g:ruby_doc_command='open'
+
+" vim fzf setting
+set rtp+=/opt/homebrew/opt/fzf
 
 " Mode Settings
 set guicursor=n-v-c:block-blinkon0,i-ci-ve:block-blinkwait100-blinkoff50-blinkon50,r-cr:hor20,o:hor50
 
 " Deoplete options
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#lsp#use_icons_for_candidates = 1
-
+"let g:deoplete#enable_at_startup = 1
+"let g:deoplete#lsp#use_icons_for_candidates = 1
+"call deoplete#custom#option('max_list', 10)
 " Set some defaults.
 set nocompatible
 syntax on
@@ -99,7 +139,6 @@ set hidden
 set cursorline
 set backspace=indent,eol,start
 set modeline
-set splitright
 set number
 set updatetime=100
 
@@ -112,6 +151,8 @@ let g:gruvbox_improved_strings=1
 let g:gruvbox_improved_warnings=1
 colorscheme gruvbox
 
+" Default value is clap
+let g:dashboard_default_executive ='telescope'
 " set airline theme
 let g:airline_theme = 'gruvbox'
 let g:airline_powerline_fonts=1
@@ -122,13 +163,15 @@ set hlsearch
 set incsearch
 set wildmenu
 set wildmode=longest,list,full
+set clipboard+=unnamedplus
+
 
 " Layout and tabs
 set autoindent
 set smartindent
 set expandtab
 set smarttab
-set tabstop=4
+set tabstop=2
 set shiftwidth=2
 set autoread
 
@@ -156,12 +199,19 @@ noremap <leader>8 8gt
 noremap <leader>9 9gt
 nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
-
+nnoremap <leader>fc <cmd>Telescope live_grep<cr>
 " Split navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Allow mouse
+set mouse=a
+
+" Set default splits
+set splitright
+set splitbelow
 
 " Better Whitespace
 let g:better_whitespace_enabled=1
@@ -184,7 +234,7 @@ let g:ale_lint_delay = 1000
 
 " Telescope shortcuts
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fg <cmd>Telesco pe live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -195,8 +245,10 @@ nnoremap <leader>Cs <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>Ct <cmd>Telescope current_buffer_tags<cr>
 nnoremap <leader>Clt <cmd>Telescope tag_stack<cr>
 nnoremap <leader>Cf <cmd>Telescope file_browser<cr>
+nnoremap <c-P> <cmd>lua require('fzf-lua').files()<CR>
 
-" Seplling
+nnoremap <c-T> <cmd>lua require('fzf-lua').tags_live_grep()<CR>
+" Spelling
 set spelllang=en_gb
 set spell
 nnoremap <silent> <F4> :set spell!<cr>
@@ -255,8 +307,40 @@ function! s:DiffWithSaved()
 endfunction
 com! DiffSaved call s:DiffWithSaved()
 
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-" LUA config
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
 lua << EOF
 local nvim_lsp = require('lspconfig')
@@ -306,5 +390,90 @@ require('telescope').setup {
   }
 }
 require('telescope').load_extension('fzy_native')
+require('telescope').setup({
+  extensions = {
+    command_palette = {
+      {"File",
+        { "entire selection (C-a)", ':call feedkeys("GVgg")' },
+        { "save current file (C-s)", ':w' },
+        { "save all files (C-A-s)", ':wa' },
+        { "quit (C-q)", ':qa' },
+        { "file browser (C-i)", ":lua require'telescope'.extensions.file_browser.file_browser()", 1 },
+        { "search word (A-w)", ":lua require('telescope.builtin').live_grep()", 1 },
+        { "git files (A-f)", ":lua require('telescope.builtin').git_files()", 1 },
+        { "files (C-f)",     ":lua require('telescope.builtin').find_files()", 1 },
+      },
+      {"Help",
+        { "tips", ":help tips" },
+        { "cheatsheet", ":help index" },
+        { "tutorial", ":help tutor" },
+        { "summary", ":help summary" },
+        { "quick reference", ":help quickref" },
+        { "search help(F1)", ":lua require('telescope.builtin').help_tags()", 1 },
+      },
+      {"Vim",
+        { "reload vimrc", ":source $MYVIMRC" },
+        { 'check health', ":checkhealth" },
+        { "jumps (Alt-j)", ":lua require('telescope.builtin').jumplist()" },
+        { "commands", ":lua require('telescope.builtin').commands()" },
+        { "command history", ":lua require('telescope.builtin').command_history()" },
+        { "registers (A-e)", ":lua require('telescope.builtin').registers()" },
+        { "colorshceme", ":lua require('telescope.builtin').colorscheme()", 1 },
+        { "vim options", ":lua require('telescope.builtin').vim_options()" },
+        { "keymaps", ":lua require('telescope.builtin').keymaps()" },
+        { "buffers", ":Telescope buffers" },
+        { "search history (C-h)", ":lua require('telescope.builtin').search_history()" },
+        { "paste mode", ':set paste!' },
+        { 'cursor line', ':set cursorline!' },
+        { 'cursor column', ':set cursorcolumn!' },
+        { "spell checker", ':set spell!' },
+        { "relative number", ':set relativenumber!' },
+        { "search highlighting (F12)", ':set hlsearch!' },
+      }
+    }
+  }
+})
+require('telescope').load_extension('command_palette')
+require('telescope').load_extension('coc')
+
+require "startup".setup()
+
+
+require('twilight').setup {
+  dimming = {
+    alpha = 0.25, -- amount of dimming
+    -- we try to get the foreground from the highlight groups or fallback color
+    color = { "Normal", "#ffffff" },
+    inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
+  },
+  context = 10, -- amount of lines we will try to show around the current line
+  treesitter = true, -- use treesitter when available for the filetype
+  -- treesitter is used to automatically expand the visible text,
+  -- but you can further control the types of nodes that should always be fully expanded
+  expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
+    "function",
+    "method",
+    "table",
+    "if_statement",
+  },
+  exclude = {}, -- exclude these filetypes
+}
+require("trouble").setup()
+require("nvim-treesitter.configs").setup {
+  highlight = {
+      -- ...
+  },
+  -- ...
+  rainbow = {
+    enable = true,
+    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  }
+}
+require'treesitter-context'.setup()
+
 EOF
 
